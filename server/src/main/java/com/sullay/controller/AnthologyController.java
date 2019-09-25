@@ -22,18 +22,32 @@ public class AnthologyController {
 	  AnthologyService anthologyService;
 	  @PostMapping("/create")
 	  public Msg create(@RequestBody Anthology anthology) {
-		  System.out.println(anthology.toString());
-		  anthologyService.create(anthology);
-		  return Msg.success();
+		  try {
+			  anthologyService.create(anthology);
+			  return Msg.success();
+		  } catch (Exception e) {
+			// TODO: handle exception
+			  return Msg.fail().add("errTip", "创建或更新文集失败").add("errInfo", e.toString());
+		  }
 	  }
 	  @PostMapping("/delete")
 	  public Msg delete(@RequestBody Anthology anthology) {
-		  anthologyService.delete(anthology);
-		  return Msg.success();
+		  try {
+			  anthologyService.delete(anthology);
+			  return Msg.success();
+		  } catch (Exception e) {
+			// TODO: handle exception
+			  return Msg.fail().add("errTip", "删除文集失败").add("errInfo", e.toString());
+		  }
 	  }
 	  @GetMapping("/findPage")
 	  public Msg findPage(@RequestParam(value="page",defaultValue="0") int page,@RequestParam(value="size",defaultValue="10") int size){
-		  Page<Anthology> anthologyPage = anthologyService.findPage(page, size);
-		  return Msg.success().add("anthologyPage", anthologyPage);
+		  try {
+			  Page<Anthology> anthologyPage = anthologyService.findPage(page, size);
+			  return Msg.success().add("data", anthologyPage);
+		  } catch (Exception e) {
+			// TODO: handle exception
+			  return Msg.fail().add("errTip", "查询文集列表失败").add("errInfo", e.toString());
+		  }
 	  }
 }

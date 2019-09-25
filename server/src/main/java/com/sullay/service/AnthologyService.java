@@ -19,9 +19,8 @@ public class AnthologyService {
 	@Autowired
 	AnthologyRepository anthologyRepository;
 	public void create(Anthology anthology) {
-		System.out.println(anthology.toString());
 		anthology.setUpdateTime(new Date());
-		if(anthology.getId()== null) {
+		if(anthology.getId()== null||anthology.getCreateTime()==null) {
 			anthology.setCreateTime(new Date());
 		}
 		anthologyRepository.save(anthology);
