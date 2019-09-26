@@ -11,5 +11,11 @@
 
 html,
 body {
+  width: 100%;
+  height: 100%;
   background-color: #fff;
+}
+
+.writer .context-title .el-input__inner{
+  border: none;
 }

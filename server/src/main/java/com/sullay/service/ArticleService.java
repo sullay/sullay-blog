@@ -24,36 +24,42 @@ import com.sullay.repository.ArticleRepository;
 public class ArticleService {
 	@Autowired
 	ArticleRepository articleRepository;
-	public void create(Article article) {
+	@Autowired
+	UserService userService;
+
+	public void create(Article article){
 		article.setUpdateTime(new Date());
-		if(article.getId()== null||article.getCreateTime()==null) {
+		if (article.getId() == null || article.getCreateTime() == null) {
 			article.setCreateTime(new Date());
 		}
 		articleRepository.save(article);
-	  }
-	  public void delete(Article article) {
-		  articleRepository.delete(article);
-	  }
-	  public Article findById(int id) {
-		  return articleRepository.findById(id);
-	  }
-	  public Page<Article> findPage(Integer AnthologyId, int page, int size){
-		  Pageable pageable = PageRequest.of(page, size, Sort.by(new Order(Direction.DESC, "createTime")));
-		  Specification<Article> specification = new Specification<Article>() {
-	          /**
-			 * 
-			 */
+	}
+
+	public void delete(Article article){
+		articleRepository.delete(article);
+	}
+
+	public Article findById(int id) {
+		return articleRepository.findById(id);
+	}
+
+	public Page<Article> findPage(Integer AnthologyId, int page, int size) {
+		Pageable pageable = PageRequest.of(page, size, Sort.by(new Order(Direction.DESC, "createTime")));
+		Specification<Article> specification = new Specification<Article>() {
+			/**
+			* 
+			*/
 			private static final long serialVersionUID = 6374675777314905474L;
 
 			@Override
-	          public Predicate toPredicate(Root<Article> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-	              Predicate predicate = cb.conjunction();
-	              if(AnthologyId!=null) {
-	            	  predicate.getExpressions().add(cb.equal(root.get("anthology").get("id"), AnthologyId));
-	              }
-	              return predicate;
-	          }
-	      };
-		  return articleRepository.findAll(specification, pageable);
-	  }
+			public Predicate toPredicate(Root<Article> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				Predicate predicate = cb.conjunction();
+				if (AnthologyId != null) {
+					predicate.getExpressions().add(cb.equal(root.get("anthology").get("id"), AnthologyId));
+				}
+				return predicate;
+			}
+		};
+		return articleRepository.findAll(specification, pageable);
+	}
 }

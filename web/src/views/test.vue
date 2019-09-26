@@ -45,8 +45,8 @@ export default {
       console.log(this.context)
       this.updateTextInfo(this.context)
     },
-    subfieldToggle(status,value){
-      console.log(status,value)
+    subfieldToggle (status, value) {
+      console.log(status, value)
     },
     $imgAdd (pos, $file) {
       console.log(pos)

@@ -7,24 +7,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 
 import lombok.Data;
 @Entity
 @Data
-public class Article {
+public class User {
 	  @Id
 	  @GeneratedValue(strategy=GenerationType.IDENTITY)
 	  private Integer id;
-	  @Column(nullable=false)
-	  private String name;
+	  @Column(unique=true,nullable=false)
+	  private String userName;
+	  @Column(unique=true,nullable=false)
+	  private String passWord;
 	  private Date createTime;
-	  private Date updateTime;
-	  @Lob
-	  private String context;
-	  @ManyToOne
-	  @JoinColumn(name="aid",nullable = false)
-	  private Anthology anthology;
 }

@@ -4,12 +4,16 @@ Vue.use(Router)
 const router = new Router({
   routes: [{
     path: '/',
-    name: 'test1',
-    component: () => import('../views/test.vue')
+    name: 'index',
+    component: () => import('../views/index.vue')
   }, {
-    path: '/test2',
-    name: 'test2',
-    component: () => import('../views/test2.vue')
+    path: '/article',
+    name: 'article',
+    component: () => import('../views/article.vue')
+  }, {
+    path: '/writer',
+    name: 'writer',
+    component: () => import('../views/writer.vue')
   }]
 })
 export default router

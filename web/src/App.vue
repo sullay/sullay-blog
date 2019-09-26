@@ -7,9 +7,20 @@
 </template>
 
 <script>
-
+import axios from './plugins/axios'
 export default {
-  name: 'app'
+  name: 'app',
+  created () {
+    axios.interceptors.response.use(response => {
+      if (response.data.code !== 200) {
+        this.$message.error(response.data.data.errTip)
+      }
+      return response
+    }, error => {
+      // Do something with response error
+      return Promise.reject(error)
+    })
+  }
 }
 </script>
 
@@ -20,6 +31,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>

@@ -7,15 +7,15 @@ import GlobalConfig from './config'
 import './plugins/element.js'
 import myComponents from './components'
 import service from './service'
-import mainCss from './assets/css/main.css'
+import './assets/css/main.css'
 // markdown
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
+import 'font-awesome/css/font-awesome.min.css'
 
 Vue.use(service)
 Vue.use(myComponents)
 Vue.use(GlobalConfig)
-Vue.use(mainCss)
 Vue.use(mavonEditor)
 Vue.config.productionTip = false
 

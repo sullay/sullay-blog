@@ -18,18 +18,23 @@ import com.sullay.repository.AnthologyRepository;
 public class AnthologyService {
 	@Autowired
 	AnthologyRepository anthologyRepository;
+	@Autowired
+	UserService userService;
+
 	public void create(Anthology anthology) {
 		anthology.setUpdateTime(new Date());
-		if(anthology.getId()== null||anthology.getCreateTime()==null) {
+		if (anthology.getId() == null || anthology.getCreateTime() == null) {
 			anthology.setCreateTime(new Date());
 		}
 		anthologyRepository.save(anthology);
-	  }
-	  public void delete(Anthology anthology) {
-		  anthologyRepository.delete(anthology);
-	  }
-	  public Page<Anthology> findPage(int page,int size){
-		  Pageable pageable = PageRequest.of(page, size, Sort.by(new Order(Direction.DESC, "createTime")));
-		  return anthologyRepository.findAll(pageable);
-	  }
+	}
+
+	public void delete(Anthology anthology) {
+		anthologyRepository.delete(anthology);
+	}
+
+	public Page<Anthology> findPage(int page, int size) {
+		Pageable pageable = PageRequest.of(page, size, Sort.by(new Order(Direction.DESC, "createTime")));
+		return anthologyRepository.findAll(pageable);
+	}
 }
