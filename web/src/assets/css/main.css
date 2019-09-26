@@ -19,3 +19,8 @@ body {
 .writer .context-title .el-input__inner{
   border: none;
 }
+.writer-tip-popover{
+  padding: 0;
+  border:none;
+  border-radius: 4px;
+}

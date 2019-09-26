@@ -22,11 +22,15 @@
         :class="{'isSelected':index==selectedAnthology}">
         <span>{{anthology.name}}</span>
         <el-popover
+          popper-class="writer-tip-popover"
           v-model="anthology.isShowTip"
           placement="bottom-end"
           width="135"
           trigger="click">
-          33333333333333
+          <div class="popover-tip">
+            <div><i class="fa fa-pencil-square-o"></i>修改文集</div>
+            <div><i class="fa fa-trash-o"></i>删除文集</div>
+          </div>
           <i class="fa fa-gear" slot="reference" @click.stop="anthology.isShowTip=true" v-show="index==selectedAnthology"/>
         </el-popover>
       </div>
@@ -161,6 +165,7 @@ export default {
   background-color: #404040;
   color: #f2f2f2;
   display: grid;
+  grid-template-columns: 100%;
   grid-template-rows: 80px;
   grid-auto-rows: 40px;
 }
@@ -203,14 +208,46 @@ export default {
 .anthologyList .anthology:hover,.anthologyList .anthology:active,.anthologyList .anthology:focus{
   background-color: #666;
 }
-.anthologyList .anthology span{
+.anthologyList .anthology > span{
   max-width: 250px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.anthologyList .anthology > span:last-of-type{
+  flex-shrink: 0;
+}
 .anthologyList .fa-gear{
+  flex-shrink: 0;
   cursor: pointer;
+}
+.popover-tip{
+  font-size: 14px;
+  box-shadow: 0 5px 10px rgba(0,0,0,.2);
+  list-style: none;
+  background-color: #fff;
+  color: #595959;
+  border-radius: 6px;
+}
+.popover-tip > div{
+  padding: 10px 20px;
+  line-height: 20px;
+  white-space: nowrap;
+  text-align: left;
+  position: relative;
+  border-bottom: 1px solid #d9d9d9;
+  cursor: pointer;
+}
+.popover-tip > div:focus,.popover-tip > div:active,.popover-tip > div:hover{
+  background-color: #666;
+  color: #fff;
+}
+.popover-tip > div:first-of-type{
+  border-radius: 4px 4px 0 0;
+}
+.popover-tip > div:last-of-type{
+  border-bottom:none;
+  border-radius: 0 0 4px 4px;
 }
 .write-mavon{
   display: flex;
