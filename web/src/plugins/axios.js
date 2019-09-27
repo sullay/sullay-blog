@@ -4,6 +4,7 @@ import Vue from 'vue'
 import axios from 'axios'
 import axiosConfig from '../config/axiosConf'
 import Qs from 'qs'
+axios.defaults.headers['key'] = localStorage.getItem('key')
 // Full config:  https://github.com/axios/axios#request-config
 // axios.defaults.baseURL = process.env.baseURL || process.env.apiUrl || '';
 // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;

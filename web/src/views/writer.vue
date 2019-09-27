@@ -23,25 +23,30 @@
         <span>{{anthology.name}}</span>
         <el-popover
           popper-class="writer-tip-popover"
-          v-model="anthology.isShowTip"
           placement="bottom-end"
           width="135"
           trigger="click">
           <div class="popover-tip">
-            <div><i class="fa fa-pencil-square-o"></i>修改文集</div>
-            <div><i class="fa fa-trash-o"></i>删除文集</div>
+            <div @click="editAnthologyName(anthology)"><i class="fa fa-pencil-square-o"></i>修改文集</div>
+            <div @click="_deleteAnthology(anthology)"><i class="fa fa-trash-o"></i>删除文集</div>
           </div>
-          <i class="fa fa-gear" slot="reference" @click.stop="anthology.isShowTip=true" v-show="index==selectedAnthology"/>
+          <i class="fa fa-gear" slot="reference" v-show="index==selectedAnthology"/>
         </el-popover>
       </div>
     </div>
-    <div></div>
+    <div class="articleList">
+      <div class="create-article">
+        <i class="fa fa-plus-circle"/>
+        <span>新建文章</span>
+      </div>
+    </div>
     <div class="write-mavon">
-      <el-input v-model="title" maxlength="50" class="context-title"></el-input>
+      <el-input v-model="articleTitle" maxlength="50" class="context-title" placeholder="文章标题"></el-input>
       <mavon-editor
         class="mavon-editor"
-        v-model="context"
+        v-model="articleContext"
         :ishljs="true"
+        codeStyle="vs2015"
         :subfield="subfield"
         :fullscreen="true"
         :toolbars="toolbars"
@@ -59,14 +64,25 @@ import { mapActions } from 'vuex'
 export default {
   data () {
     return {
+      // 选择文集索引
       selectedAnthology: 0,
+      // 文集列表
       anthologyList: [],
+      // 文集名称（新增表单）
       anthologyName: '',
+      // 是否显示创建文集表单
       isCreateAnthology: false,
-      title: '',
+      // 文章列表
+      articleList: [],
+      // 文章标题
+      articleTitle: '',
+      // 文章图片
       img_file: [],
-      context: ' ', // 输入的数据
+      // 文章内容
+      articleContext: ' ', // 输入的数据
+      // 编辑器是否分栏
       subfield: false,
+      // 编辑器按钮配置
       toolbars: {
         bold: true, // 粗体
         italic: true, // 斜体
@@ -93,16 +109,23 @@ export default {
       }
     }
   },
+  watch: {
+    selectedAnthology (val) {
+
+    }
+  },
   created () {
     this._getAnthologyList()
   },
   methods: {
-    ...mapActions(['uploadFile', 'createAnthology', 'getAnthologyList']),
+    ...mapActions(['uploadFile', 'createAnthology', 'getAnthologyList', 'deleteAnthology']),
     toCreateAnthology () {
+      // 显示创建文集表单
       this.anthologyName = ''
       this.isCreateAnthology = true
     },
     _createAnthology () {
+      // 创建文集
       if (!this.anthologyName) {
         this.$message.error('请输入文集名...')
         return
@@ -110,26 +133,67 @@ export default {
       this.createAnthology({ name: this.anthologyName }).then(res => {
         if (res.data.code === 200) {
           this.isCreateAnthology = false
-        }
-      })
-    },
-    _getAnthologyList () {
-      this.getAnthologyList({}).then(res => {
-        if (res.data.code === 200) {
-          this.anthologyList = res.data.data.anthologyPage.content
           this._getAnthologyList()
         }
       })
     },
+    _getAnthologyList (isChange = true) {
+      // 获取文集列表
+      this.getAnthologyList({}).then(res => {
+        if (res.data.code === 200) {
+          if (isChange) {
+            this.selectedAnthology = 0
+          }
+          this.anthologyList = res.data.data.anthologyPage.content
+        }
+      })
+    },
+    editAnthologyName (anthology) {
+      // 修改文集名称
+      this.$prompt('请输入文集名称', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        inputPattern: /^.{1,50}$/,
+        inputErrorMessage: '请输入正确文集名称'
+      }).then(({ value }) => {
+        anthology.name = value
+        this.createAnthology(anthology).then(res => {
+          if (res.data.code === 200) {
+            this._getAnthologyList(false)
+          }
+        })
+      }).catch(() => {
+      })
+    },
+    _deleteAnthology (anthology) {
+      // 删除文集
+      this.$confirm(`确认删除文集《${anthology.name}》？`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.deleteAnthology(anthology).then(res => {
+          if (res.data.code === 200) {
+            this._getAnthologyList()
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+          }
+        })
+      }).catch(() => {
+      })
+    },
     save () {
-      console.log(this.context)
+      // 保存文章
+      console.log(this.articleContext)
     },
     subfieldToggle (status, value) {
+      // 修改分栏状态
       this.subfield = status
     },
     $imgAdd (pos, $file) {
-      console.log(pos)
-      console.log($file)
+      // 上传图片
       // 第一步.将图片上传到服务器.
       var formdata = new FormData()
       formdata.append('file', $file)
@@ -142,6 +206,7 @@ export default {
       })
     },
     $imgDel (pos) {
+      // 删除图片
       delete this.img_file[pos]
     }
   }
@@ -249,9 +314,34 @@ export default {
   border-bottom:none;
   border-radius: 0 0 4px 4px;
 }
+.popover-tip .fa{
+  margin-right: 10px;
+}
+.articleList{
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 60px;
+  grid-auto-rows: 90px;
+  color: #595959;
+}
+.articleList .create-article{
+  padding-left: 25px;
+  text-align: left;
+  line-height: 60px;
+  border-bottom: 1px solid #d9d9d9;
+  cursor: pointer;
+}
+.articleList .create-article:hover,.articleList .create-article:active,.articleList .create-article:focus{
+  color: #333;
+}
+.articleList .create-article > .fa{
+  margin-right: 10px;
+}
 .write-mavon{
   display: flex;
   flex-direction: column;
+  border-left: 1px solid #d9d9d9;
 }
 .context-title {
   margin-top: 20px;

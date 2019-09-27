@@ -1,19 +1,18 @@
 package com.sullay.controller;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sullay.model.Anthology;
 import com.sullay.model.Msg;
-import com.sullay.model.temp.AnthologyTemp;
 import com.sullay.service.AnthologyService;
 import com.sullay.service.UserService;
 
@@ -27,13 +26,11 @@ public class AnthologyController {
 	UserService userService;
 
 	@PostMapping("/create")
-	public Msg create(@RequestBody AnthologyTemp anthologyTemp) {
+	public Msg create(@RequestBody Anthology anthology, @RequestHeader(value="key", defaultValue = "0") String key) {
 		try {
-			if (userService.findByPassWord(anthologyTemp.getPassWord()) == null) {
+			if (userService.findByPassWord(key) == null) {
 				throw new Exception("没有操作权限");
 			}
-			Anthology anthology = new Anthology();
-			BeanUtils.copyProperties(anthologyTemp, anthology);
 			anthologyService.create(anthology);
 			return Msg.success();
 		} catch (Exception e) {
@@ -43,14 +40,12 @@ public class AnthologyController {
 	}
 
 	@PostMapping("/delete")
-	public Msg delete(@RequestBody AnthologyTemp anthologyTemp) {
+	public Msg delete(@RequestBody Anthology anthology, @RequestHeader(value="key", defaultValue = "0") String key) {
 		try {
-			if (userService.findByPassWord(anthologyTemp.getPassWord()) == null) {
+			if (userService.findByPassWord(key) == null) {
 				throw new Exception("没有操作权限");
 			}
-			Anthology anthology = new Anthology();
-			BeanUtils.copyProperties(anthologyTemp, anthology);
-			anthologyService.delete(anthologyTemp);
+			anthologyService.delete(anthology);
 			return Msg.success();
 		} catch (Exception e) {
 			// TODO: handle exception

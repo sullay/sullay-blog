@@ -1,3 +1,5 @@
+var path = require('path')
+var PrerenderSpaPlugin = require('prerender-spa-plugin')
 module.exports = {
   devServer: {
     // proxy: {
@@ -19,6 +21,14 @@ module.exports = {
       config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true
       config.optimization.minimizer[0].options.terserOptions.compress.drop_debugger = true
       config.optimization.minimizer[0].options.terserOptions.compress.pure_funcs = ['console.log']
+      config.plugins.push(
+        new PrerenderSpaPlugin(
+          // Absolute path to compiled SPA
+          path.join(__dirname, 'dist'),
+          // List of routes to prerender
+          [ '/', '/writer' ]
+        )
+      )
     }
   }
 }

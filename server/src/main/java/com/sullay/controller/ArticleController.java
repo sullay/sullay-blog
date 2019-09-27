@@ -1,19 +1,18 @@
 package com.sullay.controller;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sullay.model.Article;
 import com.sullay.model.Msg;
-import com.sullay.model.temp.ArticleTemp;
 import com.sullay.service.ArticleService;
 import com.sullay.service.UserService;
 
@@ -27,14 +26,11 @@ public class ArticleController {
 	UserService userService;
 	
 	@PostMapping("/create")
-	public Msg create(@RequestBody ArticleTemp articleTemp) {
+	public Msg create(@RequestBody Article article, @RequestHeader(value="key", defaultValue = "0") String key) {
 		try {
-			if (userService.findByPassWord(articleTemp.getPassWord()) == null) {
+			if (userService.findByPassWord(key) == null) {
 				throw new Exception("没有操作权限");
 			}
-			Article article = new Article();
-			BeanUtils.copyProperties(articleTemp, article);
-			
 			articleService.create(article);
 			return Msg.success();
 		} catch (Exception e) {
@@ -44,13 +40,11 @@ public class ArticleController {
 	}
 
 	@PostMapping("/delete")
-	public Msg delete(@RequestBody ArticleTemp articleTemp) {
+	public Msg delete(@RequestBody Article article, @RequestHeader(value="key", defaultValue = "0") String key) {
 		try {
-			if (userService.findByPassWord(articleTemp.getPassWord()) == null) {
+			if (userService.findByPassWord(key) == null) {
 				throw new Exception("没有操作权限");
 			}
-			Article article = new Article();
-			BeanUtils.copyProperties(articleTemp, article);
 			articleService.delete(article);
 			return Msg.success();
 		} catch (Exception e) {

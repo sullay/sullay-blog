@@ -24,7 +24,8 @@ public class Article {
 	  private Date updateTime;
 	  @Lob
 	  private String context;
+	  
 	  @ManyToOne
-	  @JoinColumn(name="aid",nullable = false)
+	  @JoinColumn(name="aid")
 	  private Anthology anthology;
 }
