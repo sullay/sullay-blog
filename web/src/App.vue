@@ -7,11 +7,10 @@
 </template>
 
 <script>
-import axios from './plugins/axios'
 export default {
   name: 'app',
   created () {
-    axios.interceptors.response.use(response => {
+    this.axios.interceptors.response.use(response => {
       if (response.data.code !== 200) {
         this.$message.error(response.data.data.errTip)
       }
