@@ -1,7 +1,7 @@
-// import ContentHeader from './contentHeader.vue'
+import TransitionFade from './transition-fade.vue'
 const myComponents = {
   install: function (Vue) {
-    // Vue.component('ContentHeader', ContentHeader)
+    Vue.component('TransitionFade', TransitionFade)
   }
 }
 
