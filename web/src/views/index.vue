@@ -27,10 +27,11 @@ export default {
     }
   },
   created () {
-    console.log('test2', this.$store.state.text.textInfo)
+    // console.log('test2', this.$store.state.text)
+    this.updateTextInfo(localStorage.getItem('text'))
   },
   methods: {
-    ...mapActions(['file_uploadFile'])
+    ...mapActions(['file_uploadFile', 'updateTextInfo'])
   }
 }
 </script>

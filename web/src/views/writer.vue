@@ -190,6 +190,7 @@ export default {
     save () {
       // 保存文章
       console.log(this.articleContext)
+      localStorage.setItem('text', this.articleContext)
     },
     subfieldToggle (status, value) {
       // 修改分栏状态
