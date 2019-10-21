@@ -2,37 +2,47 @@
   <div class="writer" :class="{ 'writer-subfield':subfield,'writer-not-subfield':!subfield }">
     <div class="anthologyList">
       <el-button type="text" @click="toCreateAnthology" class="create-anthology"><i class="fa fa-plus"/>新建文集</el-button>
-      <input
-        v-model="anthologyName"
-        maxlength="50"
-        class="anthologyName"
-        placeholder="请输入文集名..."
-        @keyup.enter="_createAnthology"
-        v-if="isCreateAnthology"
-      />
+      <transition-left>
+        <input
+          v-model="anthologyName"
+          maxlength="50"
+          class="anthologyName"
+          placeholder="请输入文集名..."
+          @keyup.enter="_createAnthology"
+          v-if="isCreateAnthology"
+        />
+      </transition-left>
+      <transition-right>
       <div class="anthologyName-operation" v-if="isCreateAnthology">
         <el-button type="text" style="color:#42c02e" @click="_createAnthology">提交</el-button>
         <el-button type="text" style="color:#999" @click="isCreateAnthology=false">取消</el-button>
       </div>
-      <div v-for="(anthology,index) in anthologyList"
-        @click="selectedAnthology=index"
-        :title="anthology.name"
-        :key="anthology.id"
-        class="anthology"
-        :class="{'isSelected':index==selectedAnthology}">
-        <span>{{anthology.name}}</span>
-        <el-popover
-          popper-class="writer-tip-popover"
-          placement="bottom-end"
-          width="135"
-          trigger="click">
-          <div class="popover-tip">
-            <div @click="editAnthologyName(anthology)"><i class="fa fa-pencil-square-o"></i>修改文集</div>
-            <div @click="_deleteAnthology(anthology)"><i class="fa fa-trash-o"></i>删除文集</div>
-          </div>
-          <i class="fa fa-gear" slot="reference" v-show="index==selectedAnthology"/>
-        </el-popover>
-      </div>
+      </transition-right>
+      <transition-list tag="div" name="list" class="transition-list" :style="`grid-row-start: span ${anthologyList.length}`">
+        <div v-for="(anthology,index) in anthologyList"
+          @click="selectedAnthology=index"
+          :title="anthology.name"
+          :key="anthology.id"
+          class="anthology"
+          :class="{'isSelected':index==selectedAnthology}">
+          <span>{{anthology.name}}</span>
+          <transition-rotate>
+            <el-popover
+              transition="popover"
+              v-if="index==selectedAnthology"
+              popper-class="writer-tip-popover"
+              placement="bottom-end"
+              width="135"
+              trigger="click">
+              <div class="popover-tip">
+                <div @click="editAnthologyName(anthology)"><i class="fa fa-pencil-square-o"></i>修改文集</div>
+                <div @click="_deleteAnthology(anthology)"><i class="fa fa-trash-o"></i>删除文集</div>
+              </div>
+              <i class="fa fa-gear" slot="reference"/>
+            </el-popover>
+          </transition-rotate>
+        </div>
+      </transition-list>
     </div>
     <div class="articleList">
       <div class="create-article">
@@ -229,6 +239,7 @@ export default {
   }
   .anthologyList{
     overflow-y: auto;
+    overflow-x: hidden;
     background-color: #404040;
     color: #f2f2f2;
     display: grid;
@@ -261,30 +272,36 @@ export default {
         margin-right: 50px;
       }
     }
-    .anthology{
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 16px;
-      cursor: pointer;
-      & > span{
-        max-width: 250px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-      & > span:last-of-type{
-        flex-shrink: 0;
-      }
-      .fa-gear{
-        flex-shrink: 0;
+    .transition-list{
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 100%;
+      grid-auto-rows: 40px;
+      .anthology{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 16px;
         cursor: pointer;
-      }
-      &.isSelected{
-        background-color: #666;
-      }
-      &:hover,&:active,&:focus{
-        background-color: #666;
+        & > span{
+          max-width: 250px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        & > span:last-of-type{
+          flex-shrink: 0;
+        }
+        .fa-gear{
+          flex-shrink: 0;
+          cursor: pointer;
+        }
+        &.isSelected{
+          background-color: #666;
+        }
+        &:hover,&:active,&:focus{
+          background-color: #666;
+        }
       }
     }
   }

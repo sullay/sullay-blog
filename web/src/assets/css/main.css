@@ -14,3 +14,11 @@ body {
   min-width: 1200px;
   background-color: #fff;
 }
+
+.popover-enter-active, .popover-leave-active {
+  transition: all .5s;
+}
+.popover-enter, .popover-leave-to{
+  opacity: 0;
+  transform: scale(0.5) translateX(50%);
+}

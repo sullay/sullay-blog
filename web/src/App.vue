@@ -1,9 +1,9 @@
 <template>
   <div id="app" class="app">
     <div>
-      <transition-fade>
+      <transition-router>
         <router-view />
-      </transition-fade>
+      </transition-router>
     </div>
   </div>
 </template>
