@@ -118,7 +118,6 @@ export default {
     this._getAnthologyList()
   },
   mounted () {
-    this.$refs.md.markdownIt.options.langPrefix = 'lang-java'
   },
   methods: {
     ...mapActions(['uploadFile', 'createAnthology', 'getAnthologyList', 'deleteAnthology']),
@@ -216,79 +215,129 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style scoped lang="less">
 .writer {
   width: 100vw;
   height: 100vh;
   display: grid;
   grid-template-rows: 100vh;
-}
-.writer-not-subfield {
-  grid-template-columns: 16.66666667% 25% 58.33333333%;
-}
-.writer-subfield {
-  grid-template-columns: 0 0 100%;
-}
-.anthologyList{
-  overflow-y: auto;
-  background-color: #404040;
-  color: #f2f2f2;
-  display: grid;
-  grid-template-columns: 100%;
-  grid-template-rows: 80px;
-  grid-auto-rows: 40px;
-}
-.anthologyList .create-anthology{
-  align-self: center;
-  height: 42px;
-  margin: 0 18px;
-  color: #ec7259;
-  border: 1px solid rgba(236,114,89,.8);
-  border-radius: 20px;
-}
-.anthologyList .anthologyName{
-  margin: 0 18px;
-  height: 35px;
-  color: #ccc;
-  background-color: #595959;
-  border: 1px solid #333;
-  padding: 4px 6px;
-  font-size: 14px;
-  line-height: 20px;
-}
-.anthologyList .anthologyName-operation{
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-.anthologyList .anthologyName-operation .el-button:first-of-type{
-  margin-right: 50px;
-}
-.anthologyList .anthology{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 16px;
-  cursor: pointer;
-}
-.anthologyList .anthology.isSelected{
-  background-color: #666;
-}
-.anthologyList .anthology:hover,.anthologyList .anthology:active,.anthologyList .anthology:focus{
-  background-color: #666;
-}
-.anthologyList .anthology > span{
-  max-width: 250px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.anthologyList .anthology > span:last-of-type{
-  flex-shrink: 0;
-}
-.anthologyList .fa-gear{
-  flex-shrink: 0;
-  cursor: pointer;
+  &.writer-not-subfield {
+    grid-template-columns: 16.66666667% 25% 58.33333333%;
+  }
+  &.writer-subfield {
+    grid-template-columns: 0 0 100%;
+  }
+  .anthologyList{
+    overflow-y: auto;
+    background-color: #404040;
+    color: #f2f2f2;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 80px;
+    grid-auto-rows: 40px;
+    .create-anthology{
+      align-self: center;
+      height: 42px;
+      margin: 0 18px;
+      color: #ec7259;
+      border: 1px solid rgba(236,114,89,.8);
+      border-radius: 20px;
+    }
+    .anthologyName{
+      margin: 0 18px;
+      height: 35px;
+      color: #ccc;
+      background-color: #595959;
+      border: 1px solid #333;
+      padding: 4px 6px;
+      font-size: 14px;
+      line-height: 20px;
+    }
+    .anthologyName-operation{
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      .el-button:first-of-type{
+        margin-right: 50px;
+      }
+    }
+    .anthology{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 16px;
+      cursor: pointer;
+      & > span{
+        max-width: 250px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      & > span:last-of-type{
+        flex-shrink: 0;
+      }
+      .fa-gear{
+        flex-shrink: 0;
+        cursor: pointer;
+      }
+      &.isSelected{
+        background-color: #666;
+      }
+      &:hover,&:active,&:focus{
+        background-color: #666;
+      }
+    }
+  }
+  .articleList{
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 60px;
+    grid-auto-rows: 90px;
+    color: #595959;
+    .create-article{
+      padding-left: 25px;
+      text-align: left;
+      line-height: 60px;
+      border-bottom: 1px solid #d9d9d9;
+      cursor: pointer;
+      &:hover,&:active,&:focus{
+        color: #333;
+      }
+      &>.fa{
+        margin-right: 10px;
+      }
+    }
+  }
+  .write-mavon{
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid #d9d9d9;
+    .context-title {
+      margin-top: 20px;
+      width: 100%;
+      padding: 0 80px 10px 40px;
+      margin-bottom: 0;
+      border: none;
+      font-size: 30px;
+      font-weight: 400;
+      line-height: 30px;
+      -webkit-box-shadow: none;
+      box-shadow: none;
+      color: #595959;
+      background-color: transparent;
+      outline: none;
+      border-radius: 0;
+      overflow: hidden;
+      -o-text-overflow: ellipsis;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .mavon-editor{
+      flex-grow: 1;
+    }
+  }
 }
 .popover-tip{
   font-size: 14px;
@@ -297,78 +346,42 @@ export default {
   background-color: #fff;
   color: #595959;
   border-radius: 6px;
+  .fa{
+    margin-right: 10px;
+  }
+  & > div{
+    padding: 10px 20px;
+    line-height: 20px;
+    white-space: nowrap;
+    text-align: left;
+    position: relative;
+    border-bottom: 1px solid #d9d9d9;
+    cursor: pointer;
+    &:focus,&:active,&:hover{
+      background-color: #666;
+      color: #fff;
+    }
+    &:first-of-type{
+      border-radius: 4px 4px 0 0;
+    }
+    &:last-of-type{
+      border-bottom:none;
+      border-radius: 0 0 4px 4px;
+    }
+  }
 }
-.popover-tip > div{
-  padding: 10px 20px;
-  line-height: 20px;
-  white-space: nowrap;
-  text-align: left;
-  position: relative;
-  border-bottom: 1px solid #d9d9d9;
-  cursor: pointer;
-}
-.popover-tip > div:focus,.popover-tip > div:active,.popover-tip > div:hover{
-  background-color: #666;
-  color: #fff;
-}
-.popover-tip > div:first-of-type{
-  border-radius: 4px 4px 0 0;
-}
-.popover-tip > div:last-of-type{
-  border-bottom:none;
-  border-radius: 0 0 4px 4px;
-}
-.popover-tip .fa{
-  margin-right: 10px;
-}
-.articleList{
-  overflow-y: auto;
-  display: grid;
-  grid-template-columns: 100%;
-  grid-template-rows: 60px;
-  grid-auto-rows: 90px;
-  color: #595959;
-}
-.articleList .create-article{
-  padding-left: 25px;
-  text-align: left;
-  line-height: 60px;
-  border-bottom: 1px solid #d9d9d9;
-  cursor: pointer;
-}
-.articleList .create-article:hover,.articleList .create-article:active,.articleList .create-article:focus{
-  color: #333;
-}
-.articleList .create-article > .fa{
-  margin-right: 10px;
-}
-.write-mavon{
-  display: flex;
-  flex-direction: column;
-  border-left: 1px solid #d9d9d9;
-}
-.context-title {
-  margin-top: 20px;
-  width: 100%;
-  padding: 0 80px 10px 40px;
-  margin-bottom: 0;
-  border: none;
-  font-size: 30px;
-  font-weight: 400;
-  line-height: 30px;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-  color: #595959;
-  background-color: transparent;
-  outline: none;
-  border-radius: 0;
-  overflow: hidden;
-  -o-text-overflow: ellipsis;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-.mavon-editor{
-  flex-grow: 1;
-}
+</style>
+<style lang="less">
+  .writer{
+    .context-title{
+      .el-input__inner{
+        border: none;
+      }
+    }
+  }
+  .writer-tip-popover{
+    padding: 0;
+    border:none;
+    border-radius: 4px;
+  }
 </style>
