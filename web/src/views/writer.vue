@@ -117,6 +117,9 @@ export default {
   created () {
     this._getAnthologyList()
   },
+  mounted () {
+    this.$refs.md.markdownIt.options.langPrefix = 'lang-java'
+  },
   methods: {
     ...mapActions(['uploadFile', 'createAnthology', 'getAnthologyList', 'deleteAnthology']),
     toCreateAnthology () {
