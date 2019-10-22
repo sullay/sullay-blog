@@ -74,8 +74,9 @@
       </transition-list>
     </div>
     <div class="write-mavon">
-      <el-input v-model="articleTitle" maxlength="50" class="context-title" placeholder="文章标题" ref="articleTitle"></el-input>
+      <el-input :disabled="!currentArticle" v-model="articleTitle" maxlength="50" class="context-title" placeholder="文章标题" ref="articleTitle"></el-input>
       <mavon-editor
+        v-show="currentArticle"
         class="mavon-editor"
         v-model="articleContext"
         :ishljs="true"
