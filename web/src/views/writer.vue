@@ -18,7 +18,7 @@
         <el-button type="text" style="color:#999" @click="isCreateAnthology=false">取消</el-button>
       </div>
       </transition-right>
-      <transition-list tag="div" name="list" class="transition-list" :style="`grid-row-start: span ${anthologyList.length}`">
+      <transition-list tag="div" name="list" class="transition-anthologyList" :style="`grid-row-start: span ${anthologyList.length}`">
         <div v-for="(anthology,index) in anthologyList"
           @click="selectedAnthology=index"
           :title="anthology.name"
@@ -45,13 +45,36 @@
       </transition-list>
     </div>
     <div class="articleList">
-      <div class="create-article">
+      <div class="create-article" @click="_createArticle">
         <i class="fa fa-plus-circle"/>
         <span>新建文章</span>
       </div>
+      <transition-list tag="div" name="list" class="transition-articleList">
+        <div v-for="(article,index) in articleList"
+          @click="selectedArticle=index"
+          :key="article.id"
+          class="article"
+          :class="{'isSelected':index==selectedArticle}">
+          <span>{{article.name}}</span>
+          <transition-rotate color="#595959">
+            <el-popover
+              transition="popover"
+              v-if="index==selectedArticle"
+              popper-class="writer-tip-popover"
+              placement="bottom-end"
+              width="144"
+              trigger="click">
+              <div class="popover-tip">
+                <div @click="_deleteArticle(article)"><i class="fa fa-trash-o"></i>删除文章</div>
+              </div>
+              <i class="fa fa-gear" slot="reference"/>
+            </el-popover>
+          </transition-rotate>
+        </div>
+      </transition-list>
     </div>
     <div class="write-mavon">
-      <el-input v-model="articleTitle" maxlength="50" class="context-title" placeholder="文章标题"></el-input>
+      <el-input v-model="articleTitle" maxlength="50" class="context-title" placeholder="文章标题" ref="articleTitle"></el-input>
       <mavon-editor
         class="mavon-editor"
         v-model="articleContext"
@@ -70,6 +93,7 @@
   </div>
 </template>
 <script>
+import moment from 'moment'
 import { mapActions } from 'vuex'
 export default {
   data () {
@@ -82,6 +106,8 @@ export default {
       anthologyName: '',
       // 是否显示创建文集表单
       isCreateAnthology: false,
+      // 选择文章索引
+      selectedArticle: 0,
       // 文章列表
       articleList: [],
       // 文章标题
@@ -119,9 +145,27 @@ export default {
       }
     }
   },
+  computed: {
+    currentAnthology () {
+      return this.anthologyList[this.selectedAnthology] || null
+    },
+    currentArticle () {
+      return this.articleList[this.selectedArticle] || null
+    }
+  },
   watch: {
-    selectedAnthology (val) {
-
+    'currentAnthology.id' (val) {
+      this._getArticleList()
+    },
+    'currentArticle.id' (val) {
+      if (this.currentArticle) {
+        this.articleTitle = this.currentArticle.name || ''
+        this.articleContext = this.currentArticle.context || ''
+        this.$refs.articleTitle.focus()
+      } else {
+        this.articleTitle = ''
+        this.articleContext = ''
+      }
     }
   },
   created () {
@@ -130,7 +174,7 @@ export default {
   mounted () {
   },
   methods: {
-    ...mapActions(['uploadFile', 'createAnthology', 'getAnthologyList', 'deleteAnthology']),
+    ...mapActions(['uploadFile', 'createAnthology', 'getAnthologyList', 'deleteAnthology', 'createArticle', 'getArticleList', 'deleteArticle']),
     toCreateAnthology () {
       // 显示创建文集表单
       this.anthologyName = ''
@@ -154,9 +198,12 @@ export default {
       this.getAnthologyList({}).then(res => {
         if (res.data.code === 200) {
           if (isChange) {
+            this.anthologyList = res.data.data.anthologyPage.content
             this.selectedAnthology = 0
+            this._getArticleList()
+          } else {
+            this.anthologyList = res.data.data.anthologyPage.content
           }
-          this.anthologyList = res.data.data.anthologyPage.content
         }
       })
     },
@@ -193,13 +240,70 @@ export default {
             })
           }
         })
-      }).catch(() => {
+      })
+    },
+    _createArticle () {
+      // 创建文章
+      let article = {
+        name: moment().format('YYYY-MM-DD'),
+        anthology: this.currentAnthology
+      }
+      this.createArticle(article).then(res => {
+        if (res.data.code === 200) {
+          this._getArticleList()
+          this.$message({
+            type: 'success',
+            message: '创建成功!'
+          })
+        }
+      })
+    },
+    _saveArticle (article) {
+      // 创建文章
+      article.name = this.articleTitle
+      article.context = this.articleContext
+      this.createArticle(article).then(res => {
+        if (res.data.code === 200) {
+          this._getArticleList(false)
+          this.$message({
+            type: 'success',
+            message: '保存成功!'
+          })
+        }
+      })
+    },
+    _deleteArticle (article) {
+      // 删除文章
+      this.$confirm(`确认删除文章《${article.name}》？`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.deleteArticle(article).then(res => {
+          if (res.data.code === 200) {
+            this._getArticleList()
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+          }
+        })
+      })
+    },
+    _getArticleList (isChange = true) {
+      // 获取当前文集文章列表
+      this.getArticleList({ AnthologyId: this.currentAnthology.id }).then(res => {
+        if (isChange) {
+          this.articleList = res.data.data.articlePage.content
+          this.selectedArticle = 0
+        } else {
+          this.articleList = res.data.data.articlePage.content
+        }
       })
     },
     save () {
       // 保存文章
-      console.log(this.articleContext)
-      localStorage.setItem('text', this.articleContext)
+      this._saveArticle(this.currentArticle)
     },
     subfieldToggle (status, value) {
       // 修改分栏状态
@@ -272,7 +376,7 @@ export default {
         margin-right: 50px;
       }
     }
-    .transition-list{
+    .transition-anthologyList{
       overflow: hidden;
       display: grid;
       grid-template-columns: 100%;
@@ -310,7 +414,7 @@ export default {
     display: grid;
     grid-template-columns: 100%;
     grid-template-rows: 60px;
-    grid-auto-rows: 90px;
+    grid-auto-rows: auto;
     color: #595959;
     .create-article{
       padding-left: 25px;
@@ -323,6 +427,41 @@ export default {
       }
       &>.fa{
         margin-right: 10px;
+      }
+    }
+    .transition-articleList{
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 100%;
+      grid-auto-rows: 90px;
+      .article{
+        box-shadow: 0 0 0 1px #d9d9d9;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 50px;
+        cursor: pointer;
+        font-size: 18px;
+        & > span{
+          max-width: 350px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        & > span:last-of-type{
+          flex-shrink: 0;
+        }
+        .fa-gear{
+          flex-shrink: 0;
+          cursor: pointer;
+        }
+        &.isSelected{
+          background-color: #e6e6e6;
+        }
+        &:hover,&:active,&:focus{
+          background-color: #e6e6e6;
+          color: #333;
+        }
       }
     }
   }
@@ -379,11 +518,13 @@ export default {
       color: #fff;
     }
     &:first-of-type{
-      border-radius: 4px 4px 0 0;
+      border-top-left-radius: 4px;
+      border-top-right-radius: 4px;
     }
     &:last-of-type{
       border-bottom:none;
-      border-radius: 0 0 4px 4px;
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
     }
   }
 }

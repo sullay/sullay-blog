@@ -17,16 +17,20 @@ export default {
   }
   .list-leave-to{
     opacity: 0;
-    animation: bounceOutRight 1s;
+    animation: bounceOutRight .5s;
   }
-  .list-enter-active,.list-leave-active {
-    transition: all 1s;
+  .list-enter-active{
+    transition: all .5s;
+    transition-delay: .5s;
+  }
+  .list-leave-active {
+    transition: all .5s;
   }
   @keyframes bounceOutRight {
   0% {
     transform: translateX(0px)
   }
-  50% {
+  25% {
     transform: translateX(-50px)
   }
   100% {
