@@ -49,7 +49,7 @@
         <i class="fa fa-plus-circle"/>
         <span>新建文章</span>
       </div>
-      <transition-list tag="div" name="list" class="transition-articleList">
+      <transition-list tag="div" name="list" class="transition-articleList" :style="`grid-row-start: span ${articleList.length}`">
         <div v-for="(article,index) in articleList"
           @click="selectedArticle=index"
           :key="article.id"
@@ -412,10 +412,11 @@ export default {
   }
   .articleList{
     overflow-y: auto;
+    overflow-x: hidden;
     display: grid;
     grid-template-columns: 100%;
     grid-template-rows: 60px;
-    grid-auto-rows: auto;
+    grid-auto-rows: 90px;
     color: #595959;
     .create-article{
       padding-left: 25px;
