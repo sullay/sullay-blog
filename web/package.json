@@ -13,6 +13,7 @@
     "font-awesome": "^4.7.0",
     "mavon-editor": "^2.7.6",
     "qs": "^6.9.0",
+    "velocity-animate": "^1.5.2",
     "vue": "^2.6.10",
     "vue-router": "^3.0.6",
     "vuex": "^3.0.1"
