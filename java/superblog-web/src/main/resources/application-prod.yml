@@ -7,5 +7,5 @@ server:
 spring:
   # 读取配置文件
   profiles:
-    include: redis-prod,logging,exception,mysql-prod,mybatis,mongo,elasticsearch,shiro,common
+    include: redis-prod,logging,exception,mysql-prod,mybatis,mongo,elasticsearch,shiro,common,socket
     

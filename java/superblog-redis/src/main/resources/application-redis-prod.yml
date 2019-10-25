@@ -1,7 +1,7 @@
 spring:
   # redis配置
   redis:
-    host: 127.0.0.1
+    host: 106.54.199.36
     port: 6379
     password: sullaylhq
     timeout: 10000
