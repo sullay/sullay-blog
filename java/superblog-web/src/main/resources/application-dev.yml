@@ -1,0 +1,11 @@
+# 服务配置
+server:
+   port: 7000
+   servlet:
+      context-path: /api
+      
+spring:
+  # 读取配置文件
+  profiles:
+    include: redis-dev,logging-dev,exception,mysql-dev,mybatis,mongo,elasticsearch,shiro,wechat,sms,common,socket
+    

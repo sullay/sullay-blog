@@ -1,0 +1,7 @@
+# mongodb配置
+spring:
+  data:
+    mongodb:
+      database: lhq-boot
+      host: localhost
+      port: 27017

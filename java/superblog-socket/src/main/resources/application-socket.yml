@@ -1,0 +1,20 @@
+# socket配置文件
+socketio:
+  # 指定要主机ip地址，这个和页面请求ip地址一致
+  hostName: 127.0.0.1
+  # 指定端口号
+  post: 9092
+  # 设置最大的WebSocket帧内容长度限制1024*1024
+  maxFramePayloadLength: 1048576
+  # 设置最大HTTP内容长度限制1024*1024
+  maxHttpContentLength: 1048576
+  # socket连接数大小（如只监听一个端口boss线程组为1即可）
+  bossCount: 1
+  workCount: 100
+  allowCustomRequests: true
+  # 协议升级超时时间（毫秒），默认10秒。HTTP握手升级为ws协议超时时间
+  upgradeTimeout: 1000000
+  # Ping消息超时时间（毫秒），默认60秒，这个时间间隔内没有接收到心跳消息就会发送超时事件
+  pingTimeout: 600000
+  # Ping消息间隔（毫秒），默认25秒。客户端向服务器发送一条心跳消息间隔
+  pingInterval: 25000

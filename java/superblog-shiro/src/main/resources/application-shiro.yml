@@ -1,0 +1,58 @@
+# shiro配置
+shiro:
+  cache:
+    expire: 21600
+    prefix: "lhq:superboot:shiro:cache:"
+    authenticName: authenticationCache
+    authorizaName: authorizationCache
+  session:
+    timeout: 1800000
+    prefix: "lhq:superboot:shiro:session:"
+    idName: SHIROJSESSIONID
+    # 设置session失效的扫描时间
+    valid: 3600000
+    # redis在session超时时间s
+    expire: 86400
+  cookie:
+    name: rememberMe
+    timeout: 259200
+  login:
+    # 账号登录限制过期时间s(如12小时候清空账号登录次数)
+    accountlockTime: 43200
+    # 账号锁次数(修改账号状态)
+    accountlockCount: 5
+    accountlockPrefix: "lhq:superboot:shiro:login:count:"
+    # 频繁锁次数(增加redis限制)
+    repeatlockCount: 3
+    # 频繁锁时间s
+    repeatlockTime: 300
+    repeatlockPrefix: "lhq:superboot:shiro:login:locked:"
+  filter:
+    # 授权地址
+    authUrl: /**
+    # 不授权地址(这里记录备份，真正获取从数据库白名单中获取)
+    # 登录跳转(已废弃)
+    # unloginUrl: /unlogin
+    # 没有权限跳转(已废弃)
+    # unauthorizedUrl: /unauthorized
+    # 登录登出注册
+    # loginUrl: /user/login
+    # logoutUrl: /user/logout
+    # registerUrl: /user/pc/register
+    # 微信登录注册
+    # wechatRegisterUrl: /user/wxchat/register
+    # wechatLoginUrl: /user/wxchat/login
+    # getCode: /user/getCode
+    # app登录注册
+    # appRegisterUrl: /user/app/register
+    # appLoginUrl: /user/app/login
+    # appjudgeSessionUrl: /user/app/judgeSession
+    # 业务未授权地址
+    # cardListUrl: /card/cardType/pc/list
+    # tokenListUrl: /token/tokenCard/pc/list
+    # 忘记密码
+    # fpGetCode: /user/getCodeForFp
+    # fpValidateCode: /user/validateCodeForFp
+    # fpUpdatePwd: /user/findPassword
+    # 企业采购申请
+    # orderApply: /order/applyOrder/pc/apply

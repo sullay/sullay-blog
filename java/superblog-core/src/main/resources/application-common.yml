@@ -1,0 +1,9 @@
+# 公共配置文件
+# aes加密默认key
+aes:
+  key: a4fbd7ec3ba0cd2t
+# 分页
+page:
+  # 最多一次查出200条数据
+  maxSize: 200
+filePath: "E:/项目/Sullay-blog/file/"

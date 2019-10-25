@@ -1,0 +1,14 @@
+# 配置日志
+logging:
+  config: classpath:config/logback.xml
+  #level:
+    # 不同目录下的日志可配置不同级别
+    #com.lhq.superboot: debug 
+    #org.springfromework.web: error
+    #org.springframework.data.mongodb.core.MongoTemplate: error
+    #com.lhq.superboot.shiro.session : info
+    #org.apache.shiro: info 
+  # 采用相对路径方式
+  # file: log\myspringboot.log
+  # 配置日志文件路径
+  #path: E:/项目/source/log

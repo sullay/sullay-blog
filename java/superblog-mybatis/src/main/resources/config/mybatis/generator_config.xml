@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <context id="MySql">
+        <commentGenerator>
+            <property name="suppressDate" value="true" />
+            <property name="suppressAllComments" value="true" />
+        </commentGenerator>
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+            connectionURL="jdbc:mysql://127.0.0.1:3306/sullay_blog?serverTimezone=GMT%2B8&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;nullCatalogMeansCurrent=true"
+            userId="root" password="LHQ0318lhq" >
+            <property name="useInformationSchema" value="true"/>    
+        </jdbcConnection>
+            
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+        
+        <!--生成实体类地址 -->
+        <javaModelGenerator
+            targetPackage="com.lhq.superboot.domain" targetProject="src/main/java">
+            <property name="enaableSubPackages" value="true" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+        <!--生成mapper文件 -->
+        <sqlMapGenerator targetPackage="generator"
+            targetProject="src/main/resources/data/mybatis">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+        <!--生成mapper xml文件 -->
+        <javaClientGenerator
+            targetPackage="com.lhq.superboot.mapper" targetProject="src/main/java"
+            type="XMLMAPPER">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+        
+        <!--配置表信息 -->
+        
+         
+        <table tableName="bus_article" domainObjectName="Article">
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+            <columnOverride column="context" javaType="java.lang.String" jdbcType="VARCHAR" />
+        </table> 
+        <!-- <table tableName="bus_anthology" domainObjectName="Anthology">
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+        </table>
+        <table tableName="bus_article" domainObjectName="Article">
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+        </table> -->
+       <!--  <table tableName="sys_whitelist_url" domainObjectName="WhiteListUrl">
+            <generatedKey column="whitelist_id" sqlStatement="MySql" identity="true" />
+        </table>
+        <table tableName="bus_user" domainObjectName="User">
+            <generatedKey column="user_id" sqlStatement="select REPLACE(uuid(),'-','')" identity="false" />
+        </table>
+        <table tableName="sys_role" domainObjectName="Role">
+            <generatedKey column="role_id" sqlStatement="select REPLACE(uuid(),'-','')" identity="false" />
+        </table>
+        <table tableName="sys_menu" domainObjectName="Menu">
+            <generatedKey column="menu_id" sqlStatement="select REPLACE(uuid(),'-','')" identity="false" />
+        </table>
+        <table tableName="sys_resource" domainObjectName="Resource">
+            <generatedKey column="res_id" sqlStatement="select REPLACE(uuid(),'-','')" identity="false" />
+        </table>
+        <table tableName="sys_channel" domainObjectName="Channel">
+            <generatedKey column="channel_id" sqlStatement="select REPLACE(uuid(),'-','')" identity="false" />
+        </table>
+        <table tableName="sys_role_menu" domainObjectName="RoleMenu">
+            <generatedKey column="role_menu_id" sqlStatement="select REPLACE(uuid(),'-','')" identity="false" />
+        </table>
+        <table tableName="sys_role_resource" domainObjectName="RoleResource">
+            <generatedKey column="role_res_id" sqlStatement="select REPLACE(uuid(),'-','')" identity="false" />
+        </table>
+        <table tableName="bus_user_info" domainObjectName="UserInfo">
+            <generatedKey column="user_info_id" sqlStatement="select REPLACE(uuid(),'-','')" identity="false" />
+        </table> -->
+    </context>
+</generatorConfiguration>

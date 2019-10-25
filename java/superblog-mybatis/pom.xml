@@ -1,0 +1,64 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.lhq</groupId>
+		<artifactId>superblog</artifactId>
+		<version>1.0.0</version>
+	</parent>
+	<artifactId>superblog-mybatis</artifactId>
+	<name>superblog-mybatis</name>
+	<description>superblog集成mybatis框架</description>
+
+	<dependencies>
+		<!-- mybatis -->
+		<dependency>
+			<groupId>org.mybatis.spring.boot</groupId>
+			<artifactId>mybatis-spring-boot-starter</artifactId>
+			<version>${mybatis.version}</version>
+		</dependency>
+		
+		<!-- superboot -->
+		<dependency>
+			<groupId>com.lhq</groupId>
+			<artifactId>superblog-core</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.lhq</groupId>
+			<artifactId>superblog-bean</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		
+	</dependencies>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<build>
+		<plugins>
+			<!--mybatis自动生成代码插件 -->
+			<plugin>
+				<groupId>org.mybatis.generator</groupId>
+				<artifactId>mybatis-generator-maven-plugin</artifactId>
+				<version>1.3.6</version>
+				<configuration>
+					<configurationFile>${basedir}/src/main/resources/config/mybatis/generator_config.xml</configurationFile>
+					<!-- 是否覆盖，true表示会替换生成的JAVA文件，false则不覆盖 -->
+					<overwrite>true</overwrite>
+				</configuration>
+				<dependencies>
+					<!--mysql驱动包 -->
+					<dependency>
+						<groupId>mysql</groupId>
+						<artifactId>mysql-connector-java</artifactId>
+						<version>8.0.15</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
+</project>

@@ -1,0 +1,5 @@
+# mybatis配置
+mybatis:
+  mapper-locations: classpath:data/mybatis/**/*.xml
+  config-location: classpath:config/mybatis/mybatis_config.xml
+  type-aliases-package: com.lhq.superboot.domain

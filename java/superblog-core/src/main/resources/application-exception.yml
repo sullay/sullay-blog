@@ -1,0 +1,8 @@
+# 异常文件
+exception:
+  # 异常文件存放目录
+  classpath: data/exception/**/*.properties
+  # 语言，通过文件后缀区分
+  language: zh_CN
+  # 异常存储缓存的前缀命名空间
+  namespace: "lhq:superboot:exception:"
