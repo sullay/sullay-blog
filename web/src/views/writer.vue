@@ -175,7 +175,7 @@ export default {
   mounted () {
   },
   methods: {
-    ...mapActions(['uploadFile', 'createAnthology', 'getAnthologyList', 'deleteAnthology', 'createArticle', 'getArticleList', 'deleteArticle']),
+    ...mapActions(['uploadFile', 'createAnthology', 'updateAnthology', 'getAnthologyList', 'deleteAnthology', 'createArticle', 'updateArticle', 'getArticleList', 'deleteArticle']),
     toCreateAnthology () {
       // 显示创建文集表单
       this.anthologyName = ''
@@ -199,11 +199,11 @@ export default {
       this.getAnthologyList({}).then(res => {
         if (res.data.code === 200) {
           if (isChange) {
-            this.anthologyList = res.data.data.anthologyPage.content
+            this.anthologyList = res.data.data.list
             this.selectedAnthology = 0
             this._getArticleList()
           } else {
-            this.anthologyList = res.data.data.anthologyPage.content
+            this.anthologyList = res.data.data.list
           }
         }
       })
@@ -217,7 +217,7 @@ export default {
         inputErrorMessage: '请输入正确文集名称'
       }).then(({ value }) => {
         anthology.name = value
-        this.createAnthology(anthology).then(res => {
+        this.updateAnthology(anthology).then(res => {
           if (res.data.code === 200) {
             this._getAnthologyList(false)
           }
@@ -247,7 +247,7 @@ export default {
       // 创建文章
       let article = {
         name: moment().format('YYYY-MM-DD'),
-        anthology: this.currentAnthology
+        aid: this.currentAnthology.id
       }
       this.createArticle(article).then(res => {
         if (res.data.code === 200) {
@@ -263,7 +263,7 @@ export default {
       // 创建文章
       article.name = this.articleTitle
       article.context = this.articleContext
-      this.createArticle(article).then(res => {
+      this.updateArticle(article).then(res => {
         if (res.data.code === 200) {
           this._getArticleList(false)
           this.$message({
@@ -295,10 +295,10 @@ export default {
       // 获取当前文集文章列表
       this.getArticleList({ AnthologyId: this.currentAnthology.id }).then(res => {
         if (isChange) {
-          this.articleList = res.data.data.articlePage.content
+          this.articleList = res.data.data.list
           this.selectedArticle = 0
         } else {
-          this.articleList = res.data.data.articlePage.content
+          this.articleList = res.data.data.list
         }
       })
     },

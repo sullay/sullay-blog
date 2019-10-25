@@ -4,6 +4,10 @@ const actions = {
     const result = await api.article.createArticle(options)
     return result
   },
+  async updateArticle ({ commit }, options) {
+    const result = await api.article.updateArticle(options)
+    return result
+  },
   async deleteArticle ({ commit }, options) {
     const result = await api.article.deleteArticle(options)
     return result

@@ -4,6 +4,10 @@ const actions = {
     const result = await api.anthology.createAnthology(options)
     return result
   },
+  async updateAnthology ({ commit }, options) {
+    const result = await api.anthology.updateAnthology(options)
+    return result
+  },
   async deleteAnthology ({ commit }, options) {
     const result = await api.anthology.deleteAnthology(options)
     return result
