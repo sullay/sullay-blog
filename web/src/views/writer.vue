@@ -2,47 +2,81 @@
   <div class="writer" :class="{ 'writer-subfield':subfield,'writer-not-subfield':!subfield }">
     <div class="anthologyList">
       <el-button type="text" @click="toCreateAnthology" class="create-anthology"><i class="fa fa-plus"/>新建文集</el-button>
-      <input
-        v-model="anthologyName"
-        maxlength="50"
-        class="anthologyName"
-        placeholder="请输入文集名..."
-        @keyup.enter="_createAnthology"
-        v-if="isCreateAnthology"
-      />
+      <transition-left>
+        <input
+          v-model="anthologyName"
+          maxlength="50"
+          class="anthologyName"
+          placeholder="请输入文集名..."
+          @keyup.enter="_createAnthology"
+          v-if="isCreateAnthology"
+        />
+      </transition-left>
+      <transition-right>
       <div class="anthologyName-operation" v-if="isCreateAnthology">
         <el-button type="text" style="color:#42c02e" @click="_createAnthology">提交</el-button>
         <el-button type="text" style="color:#999" @click="isCreateAnthology=false">取消</el-button>
       </div>
-      <div v-for="(anthology,index) in anthologyList"
-        @click="selectedAnthology=index"
-        :title="anthology.name"
-        :key="anthology.id"
-        class="anthology"
-        :class="{'isSelected':index==selectedAnthology}">
-        <span>{{anthology.name}}</span>
-        <el-popover
-          popper-class="writer-tip-popover"
-          placement="bottom-end"
-          width="135"
-          trigger="click">
-          <div class="popover-tip">
-            <div @click="editAnthologyName(anthology)"><i class="fa fa-pencil-square-o"></i>修改文集</div>
-            <div @click="_deleteAnthology(anthology)"><i class="fa fa-trash-o"></i>删除文集</div>
-          </div>
-          <i class="fa fa-gear" slot="reference" v-show="index==selectedAnthology"/>
-        </el-popover>
-      </div>
+      </transition-right>
+      <transition-list tag="div" name="list" class="transition-anthologyList" :style="`grid-row-start: span ${anthologyList.length}`">
+        <div v-for="(anthology,index) in anthologyList"
+          @click="selectedAnthology=index"
+          :title="anthology.name"
+          :key="anthology.id"
+          class="anthology"
+          :class="{'isSelected':index==selectedAnthology}">
+          <span>{{anthology.name}}</span>
+          <transition-rotate>
+            <el-popover
+              transition="popover"
+              v-if="index==selectedAnthology"
+              popper-class="writer-tip-popover"
+              placement="bottom-end"
+              width="135"
+              trigger="click">
+              <div class="popover-tip">
+                <div @click="editAnthologyName(anthology)"><i class="fa fa-pencil-square-o"></i>修改文集</div>
+                <div @click="_deleteAnthology(anthology)"><i class="fa fa-trash-o"></i>删除文集</div>
+              </div>
+              <i class="fa fa-gear" slot="reference"/>
+            </el-popover>
+          </transition-rotate>
+        </div>
+      </transition-list>
     </div>
     <div class="articleList">
-      <div class="create-article">
+      <div class="create-article" @click="_createArticle">
         <i class="fa fa-plus-circle"/>
         <span>新建文章</span>
       </div>
+      <transition-list tag="div" name="list" class="transition-articleList" :style="`grid-row-start: span ${articleList.length}`">
+        <div v-for="(article,index) in articleList"
+          @click="selectedArticle=index"
+          :key="article.id"
+          class="article"
+          :class="{'isSelected':index==selectedArticle}">
+          <span>{{article.name}}</span>
+          <transition-rotate color="#595959">
+            <el-popover
+              transition="popover"
+              v-if="index==selectedArticle"
+              popper-class="writer-tip-popover"
+              placement="bottom-end"
+              width="144"
+              trigger="click">
+              <div class="popover-tip">
+                <div @click="_deleteArticle(article)"><i class="fa fa-trash-o"></i>删除文章</div>
+              </div>
+              <i class="fa fa-gear" slot="reference"/>
+            </el-popover>
+          </transition-rotate>
+        </div>
+      </transition-list>
     </div>
     <div class="write-mavon">
-      <el-input v-model="articleTitle" maxlength="50" class="context-title" placeholder="文章标题"></el-input>
+      <el-input :disabled="!currentArticle" v-model="articleTitle" maxlength="50" class="context-title" placeholder="文章标题" ref="articleTitle"></el-input>
       <mavon-editor
+        v-show="currentArticle"
         class="mavon-editor"
         v-model="articleContext"
         :ishljs="true"
@@ -60,6 +94,7 @@
   </div>
 </template>
 <script>
+import moment from 'moment'
 import { mapActions } from 'vuex'
 export default {
   data () {
@@ -72,6 +107,8 @@ export default {
       anthologyName: '',
       // 是否显示创建文集表单
       isCreateAnthology: false,
+      // 选择文章索引
+      selectedArticle: 0,
       // 文章列表
       articleList: [],
       // 文章标题
@@ -109,16 +146,36 @@ export default {
       }
     }
   },
+  computed: {
+    currentAnthology () {
+      return this.anthologyList[this.selectedAnthology] || null
+    },
+    currentArticle () {
+      return this.articleList[this.selectedArticle] || null
+    }
+  },
   watch: {
-    selectedAnthology (val) {
-
+    'currentAnthology.id' (val) {
+      this._getArticleList()
+    },
+    'currentArticle.id' (val) {
+      if (this.currentArticle) {
+        this.articleTitle = this.currentArticle.name || ''
+        this.articleContext = this.currentArticle.context || ''
+        this.$refs.articleTitle.focus()
+      } else {
+        this.articleTitle = ''
+        this.articleContext = ''
+      }
     }
   },
   created () {
     this._getAnthologyList()
   },
+  mounted () {
+  },
   methods: {
-    ...mapActions(['uploadFile', 'createAnthology', 'getAnthologyList', 'deleteAnthology']),
+    ...mapActions(['uploadFile', 'createAnthology', 'updateAnthology', 'getAnthologyList', 'deleteAnthology', 'createArticle', 'updateArticle', 'getArticleList', 'deleteArticle']),
     toCreateAnthology () {
       // 显示创建文集表单
       this.anthologyName = ''
@@ -142,9 +199,12 @@ export default {
       this.getAnthologyList({}).then(res => {
         if (res.data.code === 200) {
           if (isChange) {
+            this.anthologyList = res.data.data.list
             this.selectedAnthology = 0
+            this._getArticleList()
+          } else {
+            this.anthologyList = res.data.data.list
           }
-          this.anthologyList = res.data.data.anthologyPage.content
         }
       })
     },
@@ -157,7 +217,7 @@ export default {
         inputErrorMessage: '请输入正确文集名称'
       }).then(({ value }) => {
         anthology.name = value
-        this.createAnthology(anthology).then(res => {
+        this.updateAnthology(anthology).then(res => {
           if (res.data.code === 200) {
             this._getAnthologyList(false)
           }
@@ -181,13 +241,70 @@ export default {
             })
           }
         })
-      }).catch(() => {
+      })
+    },
+    _createArticle () {
+      // 创建文章
+      let article = {
+        name: moment().format('YYYY-MM-DD'),
+        aid: this.currentAnthology.id
+      }
+      this.createArticle(article).then(res => {
+        if (res.data.code === 200) {
+          this._getArticleList()
+          this.$message({
+            type: 'success',
+            message: '创建成功!'
+          })
+        }
+      })
+    },
+    _saveArticle (article) {
+      // 创建文章
+      article.name = this.articleTitle
+      article.context = this.articleContext
+      this.updateArticle(article).then(res => {
+        if (res.data.code === 200) {
+          this._getArticleList(false)
+          this.$message({
+            type: 'success',
+            message: '保存成功!'
+          })
+        }
+      })
+    },
+    _deleteArticle (article) {
+      // 删除文章
+      this.$confirm(`确认删除文章《${article.name}》？`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.deleteArticle(article).then(res => {
+          if (res.data.code === 200) {
+            this._getArticleList()
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+          }
+        })
+      })
+    },
+    _getArticleList (isChange = true) {
+      // 获取当前文集文章列表
+      this.getArticleList({ AnthologyId: this.currentAnthology.id }).then(res => {
+        if (isChange) {
+          this.articleList = res.data.data.list
+          this.selectedArticle = 0
+        } else {
+          this.articleList = res.data.data.list
+        }
       })
     },
     save () {
       // 保存文章
-      console.log(this.articleContext)
-      localStorage.setItem('text', this.articleContext)
+      this._saveArticle(this.currentArticle)
     },
     subfieldToggle (status, value) {
       // 修改分栏状态
@@ -213,79 +330,172 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style scoped lang="less">
 .writer {
   width: 100vw;
   height: 100vh;
   display: grid;
   grid-template-rows: 100vh;
-}
-.writer-not-subfield {
-  grid-template-columns: 16.66666667% 25% 58.33333333%;
-}
-.writer-subfield {
-  grid-template-columns: 0 0 100%;
-}
-.anthologyList{
-  overflow-y: auto;
-  background-color: #404040;
-  color: #f2f2f2;
-  display: grid;
-  grid-template-columns: 100%;
-  grid-template-rows: 80px;
-  grid-auto-rows: 40px;
-}
-.anthologyList .create-anthology{
-  align-self: center;
-  height: 42px;
-  margin: 0 18px;
-  color: #ec7259;
-  border: 1px solid rgba(236,114,89,.8);
-  border-radius: 20px;
-}
-.anthologyList .anthologyName{
-  margin: 0 18px;
-  height: 35px;
-  color: #ccc;
-  background-color: #595959;
-  border: 1px solid #333;
-  padding: 4px 6px;
-  font-size: 14px;
-  line-height: 20px;
-}
-.anthologyList .anthologyName-operation{
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-.anthologyList .anthologyName-operation .el-button:first-of-type{
-  margin-right: 50px;
-}
-.anthologyList .anthology{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 16px;
-  cursor: pointer;
-}
-.anthologyList .anthology.isSelected{
-  background-color: #666;
-}
-.anthologyList .anthology:hover,.anthologyList .anthology:active,.anthologyList .anthology:focus{
-  background-color: #666;
-}
-.anthologyList .anthology > span{
-  max-width: 250px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.anthologyList .anthology > span:last-of-type{
-  flex-shrink: 0;
-}
-.anthologyList .fa-gear{
-  flex-shrink: 0;
-  cursor: pointer;
+  &.writer-not-subfield {
+    grid-template-columns: 16.66666667% 25% 58.33333333%;
+  }
+  &.writer-subfield {
+    grid-template-columns: 0 0 100%;
+  }
+  .anthologyList{
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: #404040;
+    color: #f2f2f2;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 80px;
+    grid-auto-rows: 40px;
+    .create-anthology{
+      align-self: center;
+      height: 42px;
+      margin: 0 18px;
+      color: #ec7259;
+      border: 1px solid rgba(236,114,89,.8);
+      border-radius: 20px;
+    }
+    .anthologyName{
+      margin: 0 18px;
+      height: 35px;
+      color: #ccc;
+      background-color: #595959;
+      border: 1px solid #333;
+      padding: 4px 6px;
+      font-size: 14px;
+      line-height: 20px;
+    }
+    .anthologyName-operation{
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      .el-button:first-of-type{
+        margin-right: 50px;
+      }
+    }
+    .transition-anthologyList{
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 100%;
+      grid-auto-rows: 40px;
+      .anthology{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 16px;
+        cursor: pointer;
+        & > span{
+          max-width: 250px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        & > span:last-of-type{
+          flex-shrink: 0;
+        }
+        .fa-gear{
+          flex-shrink: 0;
+          cursor: pointer;
+        }
+        &.isSelected{
+          background-color: #666;
+        }
+        &:hover,&:active,&:focus{
+          background-color: #666;
+        }
+      }
+    }
+  }
+  .articleList{
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 60px;
+    grid-auto-rows: 90px;
+    color: #595959;
+    .create-article{
+      padding-left: 25px;
+      text-align: left;
+      line-height: 60px;
+      border-bottom: 1px solid #d9d9d9;
+      cursor: pointer;
+      &:hover,&:active,&:focus{
+        color: #333;
+      }
+      &>.fa{
+        margin-right: 10px;
+      }
+    }
+    .transition-articleList{
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 100%;
+      grid-auto-rows: 90px;
+      .article{
+        box-shadow: 0 0 0 1px #d9d9d9;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 50px;
+        cursor: pointer;
+        font-size: 18px;
+        & > span{
+          max-width: 350px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        & > span:last-of-type{
+          flex-shrink: 0;
+        }
+        .fa-gear{
+          flex-shrink: 0;
+          cursor: pointer;
+        }
+        &.isSelected{
+          background-color: #e6e6e6;
+        }
+        &:hover,&:active,&:focus{
+          background-color: #e6e6e6;
+          color: #333;
+        }
+      }
+    }
+  }
+  .write-mavon{
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid #d9d9d9;
+    .context-title {
+      margin-top: 20px;
+      width: 100%;
+      padding: 0 80px 10px 40px;
+      margin-bottom: 0;
+      border: none;
+      font-size: 30px;
+      font-weight: 400;
+      line-height: 30px;
+      -webkit-box-shadow: none;
+      box-shadow: none;
+      color: #595959;
+      background-color: transparent;
+      outline: none;
+      border-radius: 0;
+      overflow: hidden;
+      -o-text-overflow: ellipsis;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .mavon-editor{
+      flex-grow: 1;
+    }
+  }
 }
 .popover-tip{
   font-size: 14px;
@@ -294,78 +504,44 @@ export default {
   background-color: #fff;
   color: #595959;
   border-radius: 6px;
+  .fa{
+    margin-right: 10px;
+  }
+  & > div{
+    padding: 10px 20px;
+    line-height: 20px;
+    white-space: nowrap;
+    text-align: left;
+    position: relative;
+    border-bottom: 1px solid #d9d9d9;
+    cursor: pointer;
+    &:focus,&:active,&:hover{
+      background-color: #666;
+      color: #fff;
+    }
+    &:first-of-type{
+      border-top-left-radius: 4px;
+      border-top-right-radius: 4px;
+    }
+    &:last-of-type{
+      border-bottom:none;
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
+    }
+  }
 }
-.popover-tip > div{
-  padding: 10px 20px;
-  line-height: 20px;
-  white-space: nowrap;
-  text-align: left;
-  position: relative;
-  border-bottom: 1px solid #d9d9d9;
-  cursor: pointer;
-}
-.popover-tip > div:focus,.popover-tip > div:active,.popover-tip > div:hover{
-  background-color: #666;
-  color: #fff;
-}
-.popover-tip > div:first-of-type{
-  border-radius: 4px 4px 0 0;
-}
-.popover-tip > div:last-of-type{
-  border-bottom:none;
-  border-radius: 0 0 4px 4px;
-}
-.popover-tip .fa{
-  margin-right: 10px;
-}
-.articleList{
-  overflow-y: auto;
-  display: grid;
-  grid-template-columns: 100%;
-  grid-template-rows: 60px;
-  grid-auto-rows: 90px;
-  color: #595959;
-}
-.articleList .create-article{
-  padding-left: 25px;
-  text-align: left;
-  line-height: 60px;
-  border-bottom: 1px solid #d9d9d9;
-  cursor: pointer;
-}
-.articleList .create-article:hover,.articleList .create-article:active,.articleList .create-article:focus{
-  color: #333;
-}
-.articleList .create-article > .fa{
-  margin-right: 10px;
-}
-.write-mavon{
-  display: flex;
-  flex-direction: column;
-  border-left: 1px solid #d9d9d9;
-}
-.context-title {
-  margin-top: 20px;
-  width: 100%;
-  padding: 0 80px 10px 40px;
-  margin-bottom: 0;
-  border: none;
-  font-size: 30px;
-  font-weight: 400;
-  line-height: 30px;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-  color: #595959;
-  background-color: transparent;
-  outline: none;
-  border-radius: 0;
-  overflow: hidden;
-  -o-text-overflow: ellipsis;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-.mavon-editor{
-  flex-grow: 1;
-}
+</style>
+<style lang="less">
+  .writer{
+    .context-title{
+      .el-input__inner{
+        border: none;
+      }
+    }
+  }
+  .writer-tip-popover{
+    padding: 0;
+    border:none;
+    border-radius: 4px;
+  }
 </style>

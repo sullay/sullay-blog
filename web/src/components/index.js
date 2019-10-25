@@ -1,7 +1,15 @@
-// import ContentHeader from './contentHeader.vue'
+import TransitionRouter from './transition-router.vue'
+import TransitionList from './transition-list.vue'
+import TransitionLeft from './transition-left.vue'
+import TransitionRight from './transition-right.vue'
+import TransitionRotate from './transition-rotate.vue'
 const myComponents = {
   install: function (Vue) {
-    // Vue.component('ContentHeader', ContentHeader)
+    Vue.component('TransitionRouter', TransitionRouter)
+    Vue.component('TransitionList', TransitionList)
+    Vue.component('TransitionLeft', TransitionLeft)
+    Vue.component('TransitionRight', TransitionRight)
+    Vue.component('TransitionRotate', TransitionRotate)
   }
 }
 
