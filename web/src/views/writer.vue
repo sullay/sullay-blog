@@ -201,7 +201,7 @@ export default {
           if (isChange) {
             this.anthologyList = res.data.data.list
             this.selectedAnthology = 0
-            this._getArticleList()
+            // this._getArticleList()
           } else {
             this.anthologyList = res.data.data.list
           }

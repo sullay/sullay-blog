@@ -18,7 +18,7 @@ let config = {
   timeout: 10000,
   // withCredentials: true,
   headers: {
-    'Cache-Control': 'no-cache,no-store,must-revalidate,max-age=-1,private',
+    'Cache-Control': 'no-cache,no-store,max-age=-1,private',
     'Content-Type': 'application/json;charset=utf-8'
   }
 }
