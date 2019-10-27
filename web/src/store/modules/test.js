@@ -1,4 +1,4 @@
-import api from '../../service/modules'
+import api from '../../service'
 const actions = {
   async test ({ commit }) {
     const result = await api.test.test()

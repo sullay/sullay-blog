@@ -1,4 +1,4 @@
-import api from '../../service/modules'
+import api from '../../service'
 const actions = {
   async createArticle ({ commit }, options) {
     const result = await api.article.createArticle(options)

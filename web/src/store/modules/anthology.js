@@ -1,4 +1,4 @@
-import api from '../../service/modules'
+import api from '../../service'
 const actions = {
   async createAnthology ({ commit }, options) {
     const result = await api.anthology.createAnthology(options)

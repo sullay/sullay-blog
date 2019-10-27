@@ -6,19 +6,19 @@ import store from './store'
 import GlobalConfig from './config'
 import './plugins/element.js'
 import myComponents from './components'
-import service from './service'
 import './assets/css/main.css'
 // markdown
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 import 'font-awesome/css/font-awesome.min.css'
 import velocity from './plugins/velocity'
+// import performance from './plugins/performance'
 
-Vue.use(service)
 Vue.use(myComponents)
 Vue.use(GlobalConfig)
 Vue.use(mavonEditor)
 Vue.use(velocity)
+// Vue.use(performance)
 Vue.config.productionTip = false
 
 new Vue({
