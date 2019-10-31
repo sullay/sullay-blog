@@ -3,6 +3,7 @@ import TransitionList from './transition-list.vue'
 import TransitionLeft from './transition-left.vue'
 import TransitionRight from './transition-right.vue'
 import TransitionRotate from './transition-rotate.vue'
+import TransitionGrow from './transition-grow.vue'
 const myComponents = {
   install: function (Vue) {
     Vue.component('TransitionRouter', TransitionRouter)
@@ -10,6 +11,7 @@ const myComponents = {
     Vue.component('TransitionLeft', TransitionLeft)
     Vue.component('TransitionRight', TransitionRight)
     Vue.component('TransitionRotate', TransitionRotate)
+    Vue.component('TransitionGrow', TransitionGrow)
   }
 }
 

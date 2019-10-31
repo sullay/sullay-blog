@@ -14,7 +14,13 @@ body {
   min-width: 1200px;
   background-color: #fff;
 }
-
+a {
+  color: rgba(255,255,255,0.9);
+  text-decoration: none;
+}
+a:hover,a:focus,a:active{
+  color: rgba(255,255,255,0.75);
+}
 .popover-enter-active, .popover-leave-active {
   transition: all .5s;
 }

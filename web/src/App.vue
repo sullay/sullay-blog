@@ -1,16 +1,19 @@
 <template>
   <div id="app" class="app">
-    <div>
-      <transition-router>
-        <router-view />
-      </transition-router>
-    </div>
+    <transition-router>
+      <router-view />
+    </transition-router>
   </div>
 </template>
 
 <script>
 export default {
   name: 'app',
+  data () {
+    return {
+
+    }
+  },
   created () {
     this.axios.interceptors.response.use(
       response => {
@@ -34,6 +37,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: rgba(255, 255, 255, 0.9);
+  position: relative;
 }
 </style>

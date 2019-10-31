@@ -18,7 +18,7 @@
         <el-button type="text" style="color:#999" @click="isCreateAnthology=false">取消</el-button>
       </div>
       </transition-right>
-      <transition-list tag="div" name="list" class="transition-anthologyList" :style="`grid-row-start: span ${anthologyList.length}`">
+      <transition-list tag="div" class="transition-anthologyList" :style="`grid-row-start: span ${anthologyList.length}`">
         <div v-for="(anthology,index) in anthologyList"
           @click="selectedAnthology=index"
           :title="anthology.name"
