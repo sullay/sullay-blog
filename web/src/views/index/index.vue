@@ -1,25 +1,61 @@
 <template>
   <div class="index">
     <div class="banner"></div>
+    <div class="articleList">
+      <div v-for="article in articleList" :key="article.id" class="article"
+      :style="'background:linear-gradient(135deg,hsl('+article.id*60+',50%,50%),hsl('+article.id*50+',50%,50%));'">
+        <h1>{{article.name}}</h1>
+        <p>{{article.createTime|filterTime}}</p>
+      </div>
+    </div>
+    <button v-if="showMoreBtn" @click="more" class="more">加载更多</button>
   </div>
 </template>
 <script>
 import { mapActions } from 'vuex'
+import moment from 'moment'
 export default {
   data () {
     return {
-
+      articleList: [],
+      pageSize: 10,
+      showMoreBtn: true
+    }
+  },
+  computed: {
+    lastId () {
+      return this.articleList[this.articleList.length - 1].id || 0
+    }
+  },
+  filters: {
+    filterTime (val) {
+      return moment(val).format('YYYY年 MM月 DD日')
     }
   },
   created () {
+    this._getArticleListAll(0)
   },
   methods: {
-    ...mapActions([])
+    ...mapActions(['getArticleListAll']),
+    _getArticleListAll (id) {
+      this.getArticleListAll({ pageSize: this.pageSize, id: id }).then(res => {
+        if (res.data.code === 200) {
+          if (res.data.data.length < this.pageSize) {
+            this.showMoreBtn = false
+          }
+          this.articleList = this.articleList.concat(res.data.data)
+        }
+      })
+    },
+    more () {
+      this._getArticleListAll(this.lastId + 1)
+    }
   }
 }
 </script>
 <style lang="less" scoped>
 .index{
+  padding-bottom: 120px;
   .banner{
     width: 100%;
     height: 494px;
@@ -27,6 +63,41 @@ export default {
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
+  }
+  .articleList{
+    margin-top: 80px;
+    display: grid;
+    justify-content: center;
+    grid-template-columns: 928px;
+    grid-auto-rows: 248px;
+    row-gap: 50px;
+    .article{
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      &:hover{
+        transform: scale(1.05);
+      }
+    }
+  }
+  .more{
+    margin: 80px auto 0;
+    width: 134px;
+    height: 44px;
+    border-radius: 55px;
+    background: inherit;
+    border: 1px solid #fff;
+    outline:none;
+    color: #fff;
+    cursor: pointer;
+    &:hover{
+      color: #333;
+      background: #fff;
+    }
   }
 }
 </style>
