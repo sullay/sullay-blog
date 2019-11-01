@@ -14,8 +14,20 @@
 
 	<select id="selectByIdAndSize"
 		resultMap="ArticleMap" parameterType="int">
-		SELECT id, aid, name, context, create_time, create_user, update_time
-		FROM bus_article WHERE id >= #{id,jdbcType=INTEGER} limit #{size,jdbcType=INTEGER}
+		<!-- SELECT id, aid, name, context, create_time, create_user, update_time
+		FROM bus_article WHERE id >= #{id,jdbcType=INTEGER} limit #{size,jdbcType=INTEGER} -->
+		SELECT id, aid, name, context, create_time, create_user, update_time FROM bus_article 
+		WHERE 
+		<choose>
+            <when test="id == 0">
+                id <![CDATA[<= ]]> (select max(id) id from bus_article)
+            </when>
+            <otherwise>
+                id <![CDATA[<= ]]> #{id,jdbcType=INTEGER} 
+            </otherwise>
+        </choose>
+		ORDER BY id DESC 
+		limit #{size,jdbcType=INTEGER}
 	</select>
 
 
