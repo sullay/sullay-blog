@@ -1,13 +1,15 @@
 <template>
   <div class="index">
     <div class="banner"></div>
-    <div class="articleList">
+    <transition-list-index tag="div" class="articleList">
+    <!-- <div class="articleList"> -->
       <div v-for="article in articleList" :key="article.id" class="article"
       :style="'background:linear-gradient(135deg,hsl('+article.id*60+',50%,50%),hsl('+article.id*50+',50%,50%));'">
         <h1>{{article.name}}</h1>
         <p>{{article.createTime|filterTime}}</p>
       </div>
-    </div>
+    <!-- </div> -->
+    </transition-list-index>
     <button v-if="showMoreBtn" @click="more" class="more">加载更多</button>
   </div>
 </template>
@@ -18,7 +20,7 @@ export default {
   data () {
     return {
       articleList: [],
-      pageSize: 10,
+      pageSize: 5,
       showMoreBtn: true
     }
   },
@@ -48,7 +50,7 @@ export default {
       })
     },
     more () {
-      this._getArticleListAll(this.lastId + 1)
+      this._getArticleListAll(this.lastId - 1)
     }
   }
 }
@@ -74,12 +76,12 @@ export default {
     .article{
       border-radius: 5px;
       cursor: pointer;
-      transition: all 0.3s;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       &:hover{
+        transition: all 0.5s;
         transform: scale(1.05);
       }
     }

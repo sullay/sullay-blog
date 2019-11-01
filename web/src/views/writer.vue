@@ -49,7 +49,7 @@
         <i class="fa fa-plus-circle"/>
         <span>新建文章</span>
       </div>
-      <transition-list tag="div" name="list" class="transition-articleList" :style="`grid-row-start: span ${articleList.length}`">
+      <transition-list tag="div" name="listde" class="transition-articleList" :style="`grid-row-start: span ${articleList.length}`">
         <div v-for="(article,index) in articleList"
           @click="selectedArticle=index"
           :key="article.id"
