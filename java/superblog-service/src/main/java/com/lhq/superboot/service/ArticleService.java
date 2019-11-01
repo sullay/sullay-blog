@@ -1,5 +1,7 @@
 package com.lhq.superboot.service;
 
+import java.util.List;
+
 import com.github.pagehelper.Page;
 import com.lhq.superboot.domain.Article;
 
@@ -50,6 +52,15 @@ public interface ArticleService {
 	 * @return
 	 */
 	public Page<Article> findPage(Integer AnthologyId, int page, int size);
+	
+	/**
+	 * @Description: 
+	 *
+	 * @param id
+	 * @param size
+	 * @return
+	 */
+	public List<Article> findMyPage(int id, int size);
 
 
 }
