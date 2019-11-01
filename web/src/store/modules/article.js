@@ -15,6 +15,10 @@ const actions = {
   async getArticleList ({ commit }, { AnthologyId, page = 0, size = 100 }) {
     const result = await api.article.getArticleList({ AnthologyId, page, size })
     return result
+  },
+  async getArticleListAll ({ commit }, { id = 0, pageSize = 5 }) {
+    const result = await api.article.getArticleListAll({ id, pageSize })
+    return result
   }
 }
 
