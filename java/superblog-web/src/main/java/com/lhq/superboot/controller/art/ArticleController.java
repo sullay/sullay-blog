@@ -75,4 +75,12 @@ public class ArticleController {
         page.setTotal(articlePage.getTotal());
 		return page;
 	}
+	
+	@GetMapping("/findAllPage")
+	public Object findPage(PageInfo<Article> page) {
+		Page<Article> articlePage = articleService.findPage(null, page.getPageNum(), page.getPageSize());
+		page.setList(articlePage.getResult());
+        page.setTotal(articlePage.getTotal());
+		return page;
+	}
 }
