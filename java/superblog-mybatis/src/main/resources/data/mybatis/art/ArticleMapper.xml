@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhq.superboot.repository.ArticleRepository">
+
+	<resultMap id="ArticleMap" type="com.lhq.superboot.domain.Article">
+	    <id column="id" jdbcType="INTEGER" property="id" />
+	    <result column="aid" jdbcType="INTEGER" property="aid" />
+	    <result column="name" jdbcType="VARCHAR" property="name" />
+	    <result column="context" jdbcType="VARCHAR" property="context" />
+	    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+	    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+	    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+	  </resultMap>
+
+	<select id="selectByIdAndSize"
+		resultMap="ArticleMap" parameterType="int">
+		SELECT id, aid, name, context, create_time, create_user, update_time
+		FROM bus_article WHERE id >= #{id,jdbcType=INTEGER} limit #{size,jdbcType=INTEGER}
+	</select>
+
+
+</mapper>

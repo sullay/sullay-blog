@@ -1,6 +1,7 @@
 package com.lhq.superboot.service.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import com.lhq.superboot.domain.Article;
 import com.lhq.superboot.domain.ArticleExample;
 import com.lhq.superboot.exception.SuperBootException;
 import com.lhq.superboot.mapper.ArticleMapper;
+import com.lhq.superboot.repository.ArticleRepository;
 import com.lhq.superboot.service.ArticleService;
 import com.lhq.superboot.service.UserService;
 import com.lhq.superboot.util.StringUtils;
@@ -25,6 +27,9 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private ArticleRepository articleRepository;
 
 	@Override
 	public void create(Article article) {
@@ -76,6 +81,11 @@ public class ArticleServiceImpl implements ArticleService {
 		Page<Article> articlePage = (Page<Article>) articleMapper.selectByExample(articleExample);
 
 		return articlePage;
+	}
+
+	@Override
+	public List<Article> findMyPage(int id, int size) {
+		return articleRepository.selectByIdAndSize(id, size);
 	}
 
 }

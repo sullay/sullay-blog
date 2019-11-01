@@ -83,4 +83,15 @@ public class ArticleController {
         page.setTotal(articlePage.getTotal());
 		return page;
 	}
+	
+	@GetMapping("/findMyPage")
+	public Object findMyPage(Integer id, Integer pageSize) {
+		if (StringUtils.isEmpty(id) ) {
+			throw new SuperBootException("id不能为空");
+		}
+		if (StringUtils.isEmpty(pageSize) ) {
+			throw new SuperBootException("页面数量不能为空");
+		}
+		return articleService.findMyPage(id, pageSize);
+	}
 }
