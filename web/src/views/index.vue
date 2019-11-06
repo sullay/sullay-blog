@@ -69,6 +69,7 @@ nav {
   display: grid;
   grid-template-columns: 780px 380px;
   grid-template-rows: 1fr;
+  box-shadow: 0 0.3125rem 0.3125rem -0.3125rem rgba(0,0,0,0.117);
   &>div {
     display: flex;
     flex-direction: row;

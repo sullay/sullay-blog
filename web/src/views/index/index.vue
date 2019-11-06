@@ -2,20 +2,18 @@
   <div class="index">
     <div class="banner"></div>
     <transition-list-index tag="div" class="articleList">
-    <!-- <div class="articleList"> -->
       <div v-for="article in articleList" :key="article.id" class="article"
+      @click="toArticle(article.id)"
       :style="'background:linear-gradient(135deg,hsl('+article.id*60+',50%,50%),hsl('+article.id*50+',50%,50%));'">
         <h1>{{article.name}}</h1>
         <p>{{article.createTime|filterTime}}</p>
       </div>
-    <!-- </div> -->
     </transition-list-index>
     <button v-if="showMoreBtn" @click="more" class="more">加载更多</button>
   </div>
 </template>
 <script>
 import { mapActions } from 'vuex'
-import moment from 'moment'
 export default {
   data () {
     return {
@@ -27,11 +25,6 @@ export default {
   computed: {
     lastId () {
       return this.articleList[this.articleList.length - 1].id || 0
-    }
-  },
-  filters: {
-    filterTime (val) {
-      return moment(val).format('YYYY年 MM月 DD日')
     }
   },
   created () {
@@ -51,6 +44,14 @@ export default {
     },
     more () {
       this._getArticleListAll(this.lastId - 1)
+    },
+    toArticle (id) {
+      this.$router.push({
+        name: 'article',
+        params: {
+          id: id
+        }
+      })
     }
   }
 }
