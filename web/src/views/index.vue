@@ -18,12 +18,17 @@
         <router-view />
       </transition-router>
     </div>
+    <Footer/>
   </div>
 </template>
 
 <script>
+import Footer from '../components/footer'
 export default {
   name: 'app',
+  components: {
+    Footer
+  },
   data () {
     return {
       searchKey: '',
@@ -32,7 +37,8 @@ export default {
         {
           name: '首页',
           url: '/'
-        }, {
+        },
+        {
           name: '新增文章',
           url: '/writer'
         }
