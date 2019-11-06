@@ -27,7 +27,6 @@ export default {
     }
   },
   created () {
-    console.log('test2', this.$store.state.text.textInfo)
   },
   methods: {
     ...mapActions(['file_uploadFile'])

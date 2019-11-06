@@ -7,7 +7,7 @@
       <div>
         <div class="input">
           <button @click="switchSearch"><i class="fa fa-search"/></button>
-          <transition-grow width="100px">
+          <transition-grow width="150px">
             <input v-if="showSearch" v-model="searchKey" placeholder="搜索..."/>
           </transition-grow>
         </div>
@@ -106,13 +106,14 @@ nav {
           }
         }
         input{
-          width: 100px;
+          width: 150px;
           line-height: 1.5;
           outline: none;
           border: none;
           background: inherit;
           color: #ccc;
           padding: 0 15px 0 5px;
+          border-radius: 40px;
         }
       }
     }
