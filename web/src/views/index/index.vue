@@ -19,7 +19,7 @@ export default {
     return {
       articleList: [],
       pageSize: 5,
-      showMoreBtn: true
+      showMoreBtn: false
     }
   },
   computed: {
@@ -37,6 +37,8 @@ export default {
         if (res.data.code === 200) {
           if (res.data.data.length < this.pageSize) {
             this.showMoreBtn = false
+          } else {
+            this.showMoreBtn = true
           }
           this.articleList = this.articleList.concat(res.data.data)
         }
