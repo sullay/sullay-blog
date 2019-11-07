@@ -12,13 +12,13 @@ import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 import 'font-awesome/css/font-awesome.min.css'
 import velocity from './plugins/velocity'
-// import performance from './plugins/performance'
+import filters from './plugins/filters'
 
 Vue.use(myComponents)
 Vue.use(GlobalConfig)
 Vue.use(mavonEditor)
 Vue.use(velocity)
-// Vue.use(performance)
+Vue.use(filters)
 Vue.config.productionTip = false
 
 new Vue({

@@ -10,7 +10,7 @@ const router = new Router({
       name: 'index',
       component: () => import('../views/index/index.vue')
     }, {
-      path: 'article',
+      path: 'article/:id',
       name: 'article',
       component: () => import('../views/index/article.vue')
     } ]
@@ -18,6 +18,9 @@ const router = new Router({
     path: '/writer',
     name: 'writer',
     component: () => import('../views/writer.vue')
+  }, {
+    path: '*',
+    redirect: '/'
   }]
 })
 export default router
