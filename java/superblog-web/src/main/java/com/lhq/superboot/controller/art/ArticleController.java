@@ -42,9 +42,6 @@ public class ArticleController {
 		if (StringUtils.isEmpty(article.getId()) ) {
 			throw new SuperBootException("id不能为空");
 		}
-		if (StringUtils.isEmpty(article.getContext()) ) {
-			throw new SuperBootException("内容不能为空");
-		}
 		
 		articleService.update(article);
 		return "更新成功";
