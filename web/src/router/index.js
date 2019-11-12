@@ -15,6 +15,18 @@ const router = new Router({
       component: () => import('../views/index/article.vue')
     } ]
   }, {
+    path: '/sign',
+    component: () => import('../views/sign.vue'),
+    children: [{
+      path: 'in',
+      name: 'sign_in',
+      component: () => import('../views/sign/in.vue')
+    }, {
+      path: 'up',
+      name: 'sign_up',
+      component: () => import('../views/sign/up.vue')
+    } ]
+  }, {
     path: '/writer',
     name: 'writer',
     component: () => import('../views/writer.vue')
