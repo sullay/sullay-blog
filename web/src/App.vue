@@ -33,6 +33,7 @@ export default {
 
 <style lang="less">
 #app {
+  width: 100%;
   font-family: -apple-system,BlinkMacSystemFont,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",Helvetica,Arial,sans-serif;
   text-align: center;
   color: rgba(255, 255, 255, 0.9);

@@ -11,6 +11,14 @@
             <input v-if="showSearch" v-model="searchKey" placeholder="搜索..."/>
           </transition-grow>
         </div>
+        <template v-if="isLogin">
+          <router-link type="text" to="/sign/up">注册</router-link>
+          <router-link type="text" to="/sign/in">登录</router-link>
+        </template>
+        <template v-else>
+          <span>sullay</span>
+          <img src="../assets/img/i_logout.svg" alt="登出" @click="logout">
+        </template>
       </div>
     </nav>
     <div class="home">
@@ -45,10 +53,18 @@ export default {
       ]
     }
   },
+  computed: {
+    isLogin () {
+      return true
+    }
+  },
   created () {
 
   },
   methods: {
+    logout () {
+      this.$router.push('/sign/in')
+    },
     switchSearch () {
       console.log(this.showSearch)
       this.showSearch = !this.showSearch
@@ -83,7 +99,12 @@ nav {
     &:last-of-type {
       justify-content: flex-end;
       & > *{
-        margin-right: 10px;
+        margin-right: 20px;
+      }
+      img{
+        width: auto;
+        height: 45%;
+        cursor: pointer;
       }
       .input{
         background: #2c2a2a;
