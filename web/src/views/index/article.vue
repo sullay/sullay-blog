@@ -54,9 +54,10 @@ export default {
     let nick = this.$refs.vcomments.querySelector('[name=nick]')
     let mail = this.$refs.vcomments.querySelector('[name=mail]')
     nick.setAttribute('disabled', true)
-    nick.value = '杨金伟'
     mail.setAttribute('disabled', true)
+    nick.value = '杨金伟'
     mail.value = '1181518458@qq.com'
+    localStorage.setItem('ValineCache', JSON.stringify({ 'nick': nick.value, 'mail': mail.value, 'link': '' }))
   },
   methods: {
     ...mapActions(['getArticleById']),
