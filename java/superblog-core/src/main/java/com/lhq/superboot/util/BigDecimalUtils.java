@@ -1,6 +1,7 @@
 package com.lhq.superboot.util;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * @Description bigDecimal(金额)操作
@@ -26,7 +27,7 @@ public class BigDecimalUtils {
 	public static BigDecimal toDecimal(Long money) {
 		BigDecimal moneyDe = new BigDecimal(money);
 		BigDecimal quantileDe = new BigDecimal(MONEY_QUANTILE);
-		return moneyDe.divide(quantileDe, MONEY_SCALE, BigDecimal.ROUND_UP);
+		return moneyDe.divide(quantileDe, MONEY_SCALE, RoundingMode.UP);
 	}
 
 	/**

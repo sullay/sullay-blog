@@ -20,11 +20,49 @@ import io.swagger.annotations.Api;
 @Api(value = "测试controller", tags = { "测试操作接口" })
 public class Test {
 
+	@GetMapping("/sms")
+	public Object getUserToken() {
+		return "1";
+	}
 
-    @GetMapping("/sms")
-    public Object getUserToken() {
-    	return "1";
-    }
-
+	public static void main(String[] args) {
+		String a = "";
+		String b = "";
+		for (int i = 1; i <= 10; i++) {
+			if (i%2 == 0) {
+				a += i == 10 ? i : i + ",";
+			} else {
+				b += i + ",";
+			}
+		}
+		System.out.println(b + a);
+		
+		String c = "";
+		for (int i = 1; i <= 10; i++) {
+			if (i == 10) {
+				System.out.print(c + i);
+			}
+			if (i%2 != 0) {
+				System.out.print(i + ",");
+			} else {
+				c += i + ",";
+			}
+		}
+		
+		System.out.println();
+		for (int i = 1; i <= 20; i++) {
+			if (i < 10 && i%2 != 0) {
+				System.out.print(i + ",");
+			}
+			if (i > 10 && i%2 == 0) {
+				if (i != 20) {
+					System.out.print(i-10 + ",");
+				} else {
+					System.out.print(i-10);
+				}
+				
+			}
+		}
+	}
 
 }
