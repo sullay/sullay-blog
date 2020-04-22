@@ -6,4 +6,4 @@ aes:
 page:
   # 最多一次查出200条数据
   maxSize: 200
-filePath: "E:/项目/Sullay-blog/file/"
+filePath: "C:/files/"
