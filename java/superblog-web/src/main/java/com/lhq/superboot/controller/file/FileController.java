@@ -51,7 +51,7 @@ public class FileController {
 				}
 				result.put("fileName", fileName);
 				String uuid = UUID.randomUUID().toString();
-				result.put("value", uuid + URLEncoder.encode(fileName, Charset.forName(StandardCharsets.UTF_8.name())));
+				result.put("value", uuid + URLEncoder.encode(fileName, Charset.forName(StandardCharsets.UTF_8.name())).replaceAll("\\+", "%20"));
 				dest = new File(filePath + uuid + fileName);
 			}
 			try {
