@@ -54,6 +54,7 @@ export default {
           id: id
         }
       })
+      // window.location.href = `/article/${id}`
     }
   }
 }

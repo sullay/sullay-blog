@@ -12,6 +12,7 @@
     "element-ui": "^2.12.0",
     "font-awesome": "^4.7.0",
     "mavon-editor": "^2.7.6",
+    "md5": "^2.2.1",
     "moment": "^2.24.0",
     "node-sass": "^4.13.0",
     "qs": "^6.9.0",

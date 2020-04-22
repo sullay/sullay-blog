@@ -16,6 +16,7 @@
       :boxShadow="prop.boxShadow"
       previewBackground="#2c2a2a"
     ></mavon-editor>
+    <div id="vcomments" ref="vcomments"></div>
   </div>
 </template>
 <script>
@@ -38,6 +39,24 @@ export default {
     if (this.$route.params.id) {
       this._getArticleById(this.$route.params.id)
     }
+  },
+  mounted () {
+    // eslint-disable-next-line no-undef
+    let valine = new Valine()
+    valine.init({
+      el: '#vcomments',
+      appId: 'wp6uBUe91YrXbA7UKyDBnLGe-gzGzoHsz',
+      appKey: 'NR1GUnjpWTjeI4z4D6JOqoUv',
+      path: '/' + this.$route.params.id,
+      placeholder: '请留言...',
+      meta: ['nick', 'mail']
+    })
+    let nick = this.$refs.vcomments.querySelector('[name=nick]')
+    let mail = this.$refs.vcomments.querySelector('[name=mail]')
+    nick.setAttribute('disabled', true)
+    nick.value = '杨金伟'
+    mail.setAttribute('disabled', true)
+    mail.value = '1181518458@qq.com'
   },
   methods: {
     ...mapActions(['getArticleById']),
@@ -85,6 +104,18 @@ export default {
     }
     &.v-note-wrapper{
       border: none;
+    }
+  }
+  #vcomments{
+    width: 1200px;
+    margin: 0 auto;
+  }
+  .v {
+    .vsys{
+      color: #b3b1b1;
+    }
+    p{
+      color: rgba(255, 255, 255, 0.9);
     }
   }
 }

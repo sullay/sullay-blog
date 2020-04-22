@@ -11,13 +11,14 @@
             <input v-if="showSearch" v-model="searchKey" placeholder="搜索..."/>
           </transition-grow>
         </div>
-        <template v-if="isLogin">
-          <router-link type="text" to="/sign/up">注册</router-link>
-          <router-link type="text" to="/sign/in">登录</router-link>
+        <template  v-if="isLogin">
+          <span>sullay</span>
+          <img :src="head" alt="头像">
+          <img src="../assets/img/i_logout.svg" alt="登出" @click="logout">
         </template>
         <template v-else>
-          <span>sullay</span>
-          <img src="../assets/img/i_logout.svg" alt="登出" @click="logout">
+          <router-link type="text" to="/sign/up">注册</router-link>
+          <router-link type="text" to="/sign/in">登录</router-link>
         </template>
       </div>
     </nav>
@@ -32,6 +33,7 @@
 
 <script>
 import Footer from '../components/footer'
+import md5 from 'md5'
 export default {
   name: 'app',
   components: {
@@ -56,6 +58,9 @@ export default {
   computed: {
     isLogin () {
       return true
+    },
+    head () {
+      return `https://www.gravatar.com/avatar/${md5('1181518458@qq.com')}`
     }
   },
   created () {
@@ -83,7 +88,7 @@ nav {
   justify-content: center;
   align-content: center;
   display: grid;
-  grid-template-columns: 780px 380px;
+  grid-template-columns: 780px 420px;
   grid-template-rows: 1fr;
   box-shadow: 0 0.3125rem 0.3125rem -0.3125rem rgba(0,0,0,0.117);
   &>div {
@@ -103,7 +108,7 @@ nav {
       }
       img{
         width: auto;
-        height: 45%;
+        height: 48px;
         cursor: pointer;
       }
       .input{
