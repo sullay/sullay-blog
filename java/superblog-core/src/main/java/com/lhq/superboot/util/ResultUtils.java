@@ -23,10 +23,11 @@ import com.lhq.superboot.enums.ResultMsg;
 public class ResultUtils {
 
     /** 登录返回sessionId **/
-    public static String successWithSessionId(String msg, Serializable sessionId) {
+    public static String successWithSessionId(String msg, Object object, Serializable sessionId) {
         Result<Object> result = new Result<Object>();
         result.setCode(HttpStatus.OK.value());
         result.setMsg(msg);
+        result.setData(object);
         result.setSessionId((String) sessionId);
         return FastJsonUtils.toJSONFeatures(result);
     }

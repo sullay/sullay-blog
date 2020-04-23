@@ -3,6 +3,7 @@ package com.lhq.superboot.controller.user;
 import java.util.Base64;
 import java.util.List;
 
+import com.lhq.superboot.vo.UserNameAndEmailVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -51,7 +52,6 @@ public class UserController {
 	@Autowired
 	private PhoneService phoneService;
 	
-
 	/**
 	 * @Description: 获取pc/ht的用户
 	 * 
@@ -63,6 +63,16 @@ public class UserController {
 		return userService.getCurrentUser();
 	}
 
+	/**
+	 * @Description: 获取pc/ht的用户
+	 *
+	 * @return
+	 */
+	@ApiOperation(value="获取当前用户邮箱和用户名", notes="获取当前用户邮箱和用户名")
+	@GetMapping("/getUserNameAndEmail")
+	public Object getUserNameAndEmail() {
+		return UserNameAndEmailVo.convert(userService.getCurrentUser());
+	}
 
 	/**
 	 * @Description: 获取用户菜单

@@ -34,6 +34,15 @@ public interface UserService {
 	 */
 	public UserRole getUserByUsername(PcLoginQo pcLoginQo);
 
+
+	/**
+	 * @Description: 通过用户名和渠道为PC/HT获取用户信息
+	 *
+	 * @param pcLoginQo
+	 * @return
+	 */
+	public UserRole getUserByEmail(PcLoginQo pcLoginQo);
+
 	/**
 	 * @Description: 获取当前登录用户Id
 	 *

@@ -20,7 +20,8 @@ public class CheckUtils {
 	private static final String CHECK_PHONE_PATTERN = "^((13[0-9])|(15[^4])|(18[0-9])|(17[0-8])|(14[6-8])|(166)|(19[8,9]))\\d{8}$|^((00)?852(-)?)?[6|9]\\d{7}$";
 	
 	/** 邮箱校验 **/
-	private static final String CHECK_EMAIL_PATTERN = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+	// private static final String CHECK_EMAIL_PATTERN = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+	private static final String CHECK_EMAIL_PATTERN = "[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?";
 
 	/**
 	 * @Description: 校验密码
@@ -56,7 +57,7 @@ public class CheckUtils {
 	
 	/**
 	 * @Description 校验邮箱
-	 * @param password
+	 * @param email
 	 * @return
 	 */
 	public static boolean isEmailLegal(String email) {

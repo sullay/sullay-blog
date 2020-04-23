@@ -22,6 +22,7 @@ public class UserRegisterQo {
 	private String companyCode;
 	private String phone;
 	private String password;
+	private String email;
 	private String channelFlg;
 	private String validCode;
 	private String originalPwd;

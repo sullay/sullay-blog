@@ -1,5 +1,10 @@
 package com.lhq.superboot.controller.login;
 
+import com.lhq.superboot.enums.LoginSource;
+import com.lhq.superboot.exception.SuperBootException;
+import com.lhq.superboot.qo.UserRegisterQo;
+import com.lhq.superboot.service.UserService;
+import com.lhq.superboot.util.CheckUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +38,11 @@ public class LoginController {
     @Autowired
     private LoginService loginService;
 
+    @Autowired
+    private UserService userService;
+
     /**
-     * @Description PC HT登录
+     * @Description PC登录
      * 
      * @param pcLoginQo
      * @return
@@ -48,9 +56,45 @@ public class LoginController {
             return ResultUtils.error(HttpStatus.BAD_REQUEST.value(), LoginMsg.EMPTYPASSWORD.getCode());
         }
         if (StringUtils.isEmpty(pcLoginQo.getChannelFlg())) {
-            return ResultUtils.error(HttpStatus.BAD_REQUEST.value(), LoginMsg.UNKNOWNSOURCE.getCode());
+            pcLoginQo.setChannelFlg(LoginSource.PC.name());
         }
         return loginService.userLogin(pcLoginQo);
+    }
+
+    /**
+     * @Description PC注册
+     *
+     * @param userRegisterQo
+     * @return
+     */
+    @PostMapping(value = "/user/register")
+    public String login(@RequestBody UserRegisterQo userRegisterQo) {
+        if (StringUtils.isEmpty(userRegisterQo.getUserName())) {
+            throw new SuperBootException("lhq-superboot-user-0009");
+        }
+
+        if (CheckUtils.isEmailLegal(userRegisterQo.getUserName())) {
+            throw new SuperBootException("lhq-superboot-user-0019");
+        }
+
+        if (StringUtils.isEmpty(userRegisterQo.getEmail()) || !CheckUtils.isEmailLegal(userRegisterQo.getEmail())) {
+            throw new SuperBootException("lhq-superboot-user-0012");
+        }
+
+
+        if (StringUtils.isEmpty(userRegisterQo.getChannelFlg()) || !userRegisterQo.getChannelFlg().equals(LoginSource.PC.name())) {
+            userRegisterQo.setChannelFlg(LoginSource.PC.name());
+        }
+
+        if (StringUtils.isNotEmpty(userRegisterQo.getPhone()) && !CheckUtils.isPhoneLegal(userRegisterQo.getPhone())) {
+            throw new SuperBootException("lhq-superboot-phone-0007");
+        }
+
+        if (StringUtils.isEmpty(userRegisterQo.getPassword())) {
+            throw new SuperBootException("lhq-superboot-user-0002");
+        }
+
+        return userService.registerUser(userRegisterQo);
     }
 
     /**
@@ -61,22 +105,6 @@ public class LoginController {
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
         return ResultUtils.error(HttpStatus.OK.value(), LoginMsg.LOGOUTSUCCESS.getCode());
-    }
-
-    /**
-     * @Description: 未授权（废弃）
-     */
-    @GetMapping(value = "/unauthorized")
-    public String unauthorized() {
-        return ResultUtils.error(HttpStatus.FORBIDDEN.value(), LoginMsg.UNAUTH.getCode());
-    }
-
-    /**
-     * @Description: 未登录（废弃）
-     */
-    @GetMapping(value = "/unlogin")
-    public String unlogin() {
-        return ResultUtils.error(HttpStatus.UNAUTHORIZED.value(), LoginMsg.UNLOGIN.getCode());
     }
 
 }

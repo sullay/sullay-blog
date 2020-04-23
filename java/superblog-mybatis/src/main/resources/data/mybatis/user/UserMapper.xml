@@ -69,11 +69,46 @@
 			r.is_deleted,
 			c.channel_flg,
 			c.channel_name
-		FROM ybt_user u
-		  LEFT JOIN ybt_manager m ON u.user_id = m.user_id
-		  LEFT JOIN sys_role r ON r.role_id = m.role_id
+		FROM bus_user u
+		  LEFT JOIN sys_role r ON r.role_id = u.role_id
 		  LEFT JOIN sys_channel c ON c.channel_id = u.channel_id
 		WHERE u.user_name = #{userName,jdbcType=VARCHAR}
+		AND c.channel_flg = #{channelFlg,jdbcType=VARCHAR}
+		AND u.is_deleted = 0
+	</select>
+
+	<select id="selectUserAndRoleByEmail"
+			resultMap="UserRoleResultMap" parameterType="string">
+		SELECT
+			u.user_id,
+			u.channel_id,
+			u.user_info_id,
+			u.user_name,
+			u.PASSWORD,
+			u.phone,
+			u.nick_name,
+			u.email,
+			u.icon,
+			u.wechat_id,
+			u.alipay_id,
+			u.create_time,
+			u.create_user,
+			u.modify_time,
+			u.modify_user,
+			u.is_enabled,
+			r.role_id,
+			r.role_name,
+			r.role_key,
+			r.role_sort,
+			r.data_scope,
+			r.is_enabled,
+			r.is_deleted,
+			c.channel_flg,
+			c.channel_name
+		FROM bus_user u
+		  LEFT JOIN sys_role r ON r.role_id = u.role_id
+		  LEFT JOIN sys_channel c ON c.channel_id = u.channel_id
+		WHERE u.email = #{email,jdbcType=VARCHAR}
 		AND c.channel_flg = #{channelFlg,jdbcType=VARCHAR}
 		AND u.is_deleted = 0
 	</select>
@@ -108,9 +143,8 @@
 			c.channel_id,
 			c.channel_name,
 			c.channel_flg
-		FROM ybt_user u
-		  LEFT JOIN ybt_manager m ON u.user_id = m.user_id
-		  LEFT JOIN sys_role r ON r.role_id = m.role_id
+		FROM bus_user u
+		  LEFT JOIN sys_role r ON r.role_id = u.role_id
 		  LEFT JOIN sys_channel c ON c.channel_id = u.channel_id
 		WHERE u.user_id = #{userId,jdbcType=VARCHAR}
 		AND u.is_deleted = 0

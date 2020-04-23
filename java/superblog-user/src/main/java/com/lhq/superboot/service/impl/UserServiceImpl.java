@@ -1,30 +1,8 @@
 package com.lhq.superboot.service.impl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authz.AuthorizationInfo;
-import org.apache.shiro.cache.Cache;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.lhq.superboot.domain.Channel;
-import com.lhq.superboot.domain.ChannelExample;
-import com.lhq.superboot.domain.Menu;
-import com.lhq.superboot.domain.User;
-import com.lhq.superboot.domain.UserExample;
-import com.lhq.superboot.domain.UserInfo;
-import com.lhq.superboot.domain.UserRole;
+import com.lhq.superboot.domain.*;
 import com.lhq.superboot.enums.ConstEnumUtils.IS_DELETE;
 import com.lhq.superboot.enums.LoginSource;
 import com.lhq.superboot.enums.UserMsg;
@@ -40,6 +18,17 @@ import com.lhq.superboot.service.UserService;
 import com.lhq.superboot.shiro.LocalRealm;
 import com.lhq.superboot.shiro.utils.ShiroMd5Util;
 import com.lhq.superboot.util.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationInfo;
+import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.cache.Cache;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.*;
 
 /**
  * @Description: 用户实现类
@@ -78,10 +67,18 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserRole getUserByUsername(PcLoginQo pcLoginQo) {
-		Map<String, Object> param = new HashMap<String, Object>(2);
+		Map<String, Object> param = new HashMap<>();
 		param.put("userName", pcLoginQo.getUserName());
 		param.put("channelFlg", pcLoginQo.getChannelFlg());
 		return userRepository.selectUserAndRoleByUsername(param);
+	}
+
+	@Override
+	public UserRole getUserByEmail(PcLoginQo pcLoginQo) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("email", pcLoginQo.getUserName());
+		param.put("channelFlg", pcLoginQo.getChannelFlg());
+		return userRepository.selectUserAndRoleByEmail(param);
 	}
 
 	@Override
@@ -182,6 +179,7 @@ public class UserServiceImpl implements UserService {
 
 			String phone = userRegisterQo.getPhone();
 			String userName = userRegisterQo.getUserName();
+			String email = userRegisterQo.getEmail();
 
 			// 插入用户信息表
 			UserInfo userInfo = new UserInfo();
@@ -189,7 +187,7 @@ public class UserServiceImpl implements UserService {
 			String userInfoId = userInfo.getUserInfoId();
 
 			// 插入一条数据进入用户表
-			User user = new User().toBuilder().userName(userName).phone(phone)
+			User user = new User().toBuilder().userName(userName).phone(phone).email(email)
 					.password(ShiroMd5Util.PwdMd5(userRegisterQo.getPassword())).channelId(channel.getChannelId())
 					.userInfoId(userInfoId).build();
 			userMapper.insertSelective(user);
