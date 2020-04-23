@@ -4,6 +4,7 @@ import Vue from 'vue'
 import axios from 'axios'
 import axiosConfig from '../config/axiosConf'
 import Qs from 'qs'
+import des from '../plugins/des'
 // axios.defaults.headers['key'] = localStorage.getItem('key')
 // Full config:  https://github.com/axios/axios#request-config
 // axios.defaults.baseURL = process.env.baseURL || process.env.apiUrl || '';
@@ -27,6 +28,7 @@ const _axios = axios.create(config)
 
 _axios.interceptors.request.use(
   function (config) {
+    config.headers.SessionId = des.decryptDes(localStorage.getItem('userInfo')).sessionId || ''
     // Do something before request is sent
     if (config.method.toLowerCase() === 'get' && config.params) {
       config.paramsSerializer = function (params) {

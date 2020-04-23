@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   data () {
     return {
@@ -63,10 +64,16 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['register']),
     onSubmit () {
+      // 注册
       this.$refs.form.validate((valid) => {
         if (valid) {
-          alert('submit!')
+          this.register(this.form).then(res => {
+            if (res.data.code === 200) {
+              this.$router.push('/sign/in')
+            }
+          })
         } else {
           return false
         }

@@ -1,6 +1,8 @@
 <template>
   <div class="sign">
+    <transition-router>
     <router-view class="router"></router-view>
+    </transition-router>
   </div>
 </template>
 <style lang="less" scoped>

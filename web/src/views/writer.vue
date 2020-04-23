@@ -245,6 +245,10 @@ export default {
     },
     _createArticle () {
       // 创建文章
+      if (!this.currentAnthology || !this.currentAnthology.id) {
+        this.$message.error('请选择文集')
+        return
+      }
       let article = {
         name: moment().format('YYYY-MM-DD'),
         aid: this.currentAnthology.id

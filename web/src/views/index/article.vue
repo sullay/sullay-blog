@@ -32,7 +32,13 @@ export default {
         scrollStyle: true,
         boxShadow: false
       },
-      article: {}
+      article: {},
+      userInfo: this.$decDes(localStorage.getItem('userInfo'))
+    }
+  },
+  computed: {
+    isLogin () {
+      return !!this.userInfo.sessionId
     }
   },
   created () {
@@ -55,8 +61,12 @@ export default {
     let mail = this.$refs.vcomments.querySelector('[name=mail]')
     nick.setAttribute('disabled', true)
     mail.setAttribute('disabled', true)
-    nick.value = '杨金伟'
-    mail.value = '1181518458@qq.com'
+    nick.value = '匿名'
+    mail.value = 'xxx@xx.com'
+    if (this.isLogin) {
+      nick.value = this.userInfo.userName
+      mail.value = this.userInfo.email
+    }
     localStorage.setItem('ValineCache', JSON.stringify({ 'nick': nick.value, 'mail': mail.value, 'link': '' }))
   },
   methods: {

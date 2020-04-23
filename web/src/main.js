@@ -13,16 +13,20 @@ import 'mavon-editor/dist/css/index.css'
 import 'font-awesome/css/font-awesome.min.css'
 import velocity from './plugins/velocity'
 import filters from './plugins/filters'
+import des from './plugins/des'
 
 Vue.use(myComponents)
 Vue.use(GlobalConfig)
 Vue.use(mavonEditor)
 Vue.use(velocity)
 Vue.use(filters)
+Vue.use(des)
 Vue.config.productionTip = false
 
-new Vue({
+let myVue = new Vue({
   router,
   store,
   render: h => h(App)
 }).$mount('#app')
+
+export default myVue

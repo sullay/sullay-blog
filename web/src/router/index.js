@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import myVue from '../main'
 Vue.use(Router)
 const router = new Router({
   routes: [{
@@ -29,10 +30,19 @@ const router = new Router({
   }, {
     path: '/writer',
     name: 'writer',
+    meta: { needLogin: true },
     component: () => import('../views/writer.vue')
   }, {
     path: '*',
     redirect: '/'
   }]
+})
+router.beforeEach((to, from, next) => {
+  if (!localStorage.getItem('userInfo') && to.meta.needLogin) {
+    myVue.$message.error('未登录系统')
+    next('/sign/in')
+  } else {
+    next()
+  }
 })
 export default router

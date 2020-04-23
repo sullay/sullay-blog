@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   data () {
     return {
@@ -50,10 +51,16 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['login']),
     onSubmit () {
       this.$refs.form.validate((valid) => {
         if (valid) {
-          alert('submit!')
+          this.login(this.form).then(res => {
+            if (res.data.code === 200) {
+              localStorage.setItem('userInfo', this.$encDes({ sessionId: res.data.sessionId, userName: res.data.data.userName, email: res.data.data.email }))
+              this.$router.push('/')
+            }
+          })
         } else {
           return false
         }

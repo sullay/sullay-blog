@@ -12,7 +12,7 @@
           </transition-grow>
         </div>
         <template  v-if="isLogin">
-          <span>sullay</span>
+          <span>{{userInfo.userName}}</span>
           <img :src="head" alt="头像">
           <img src="../assets/img/i_logout.svg" alt="登出" @click="logout">
         </template>
@@ -43,24 +43,25 @@ export default {
     return {
       searchKey: '',
       showSearch: false,
-      navList: [
-        {
-          name: '首页',
-          url: '/'
-        },
-        {
-          name: '新增文章',
-          url: '/writer'
-        }
-      ]
+      userInfo: this.$decDes(localStorage.getItem('userInfo'))
     }
   },
   computed: {
     isLogin () {
-      return false
+      return !!this.userInfo.sessionId
     },
     head () {
-      return `https://www.gravatar.com/avatar/${md5('1181518458@qq.com')}`
+      return `https://www.gravatar.com/avatar/${md5(this.userInfo.email)}`
+    },
+    navList () {
+      let list = [{ name: '首页', url: '/' }]
+      if (this.isLogin) {
+        list.push({
+          name: '新增文章',
+          url: '/writer'
+        })
+      }
+      return list
     }
   },
   created () {
@@ -68,7 +69,8 @@ export default {
   },
   methods: {
     logout () {
-      this.$router.push('/sign/in')
+      localStorage.setItem('userInfo', '')
+      this.userInfo = {}
     },
     switchSearch () {
       console.log(this.showSearch)
@@ -88,7 +90,7 @@ nav {
   justify-content: center;
   align-content: center;
   display: grid;
-  grid-template-columns: 780px 420px;
+  grid-template-columns: 750px 450px;
   grid-template-rows: 1fr;
   box-shadow: 0 0.3125rem 0.3125rem -0.3125rem rgba(0,0,0,0.117);
   &>div {

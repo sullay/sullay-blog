@@ -17,8 +17,14 @@ export default {
   created () {
     this.axios.interceptors.response.use(
       response => {
+        console.log(response.config.url, response)
+        // 未登录/登录过期
+        if (response.data.code === 401) {
+          localStorage.setItem('userInfo', '')
+          this.$router.push('/sign/in')
+        }
         if (response.data.code !== 200) {
-          this.$message.error(response.data.data.errTip)
+          this.$message.error(response.data.msg)
         }
         return response
       },
