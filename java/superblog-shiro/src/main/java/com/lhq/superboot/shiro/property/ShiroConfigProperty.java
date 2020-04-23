@@ -47,7 +47,7 @@ public class ShiroConfigProperty {
 	private String sessionPrefix;
 
 	@Value("${shiro.session.valid}")
-	private int sessionValid;
+	private long sessionValid;
 	
 	@Value("${shiro.session.expire}")
 	private int sessionExpire;

@@ -14,14 +14,16 @@ import java.util.regex.PatternSyntaxException;
 public class CheckUtils {
 
 	/** 密码正则校验 **/
-	private static final String CHECK_PASSWORD_PATTERN = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z_@!]{6,15}$";
+	private static final String CHECK_PASSWORD_PATTERN = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z_@!]{6,20}$";
 
 	/** 大陆内地与香港手机校验 **/
 	private static final String CHECK_PHONE_PATTERN = "^((13[0-9])|(15[^4])|(18[0-9])|(17[0-8])|(14[6-8])|(166)|(19[8,9]))\\d{8}$|^((00)?852(-)?)?[6|9]\\d{7}$";
 	
 	/** 邮箱校验 **/
 	// private static final String CHECK_EMAIL_PATTERN = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
-	private static final String CHECK_EMAIL_PATTERN = "[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?";
+	private static final String CHECK_EMAIL_PATTERN = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
+
+	private static final String CHECK_USERNAME_PATTERN = "^[a-zA-Z0-9_-]{4,16}$";
 
 	/**
 	 * @Description: 校验密码
@@ -63,6 +65,20 @@ public class CheckUtils {
 	public static boolean isEmailLegal(String email) {
 		Pattern regex = Pattern.compile(CHECK_EMAIL_PATTERN);
 		Matcher matcher = regex.matcher(email);
+		if (!matcher.matches()) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * @Description 校验用户名
+	 * @param userName
+	 * @return
+	 */
+	public static boolean checkUsername(String userName) {
+		Pattern regex = Pattern.compile(CHECK_USERNAME_PATTERN);
+		Matcher matcher = regex.matcher(userName);
 		if (!matcher.matches()) {
 			return false;
 		}

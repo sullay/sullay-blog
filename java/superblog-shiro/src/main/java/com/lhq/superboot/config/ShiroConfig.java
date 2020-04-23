@@ -1,13 +1,18 @@
 package com.lhq.superboot.config;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.servlet.Filter;
-
+import com.lhq.superboot.service.ShiroService;
+import com.lhq.superboot.shiro.LocalCredentialsMatcher;
+import com.lhq.superboot.shiro.LocalRealm;
+import com.lhq.superboot.shiro.LocalWebSecurityManager;
+import com.lhq.superboot.shiro.cache.ShiroRedisCacheManager;
+import com.lhq.superboot.shiro.filter.LocalAuthorizationFilter;
+import com.lhq.superboot.shiro.filter.LocalPermissionsAuthorizationFilter;
+import com.lhq.superboot.shiro.property.ShiroConfigProperty;
+import com.lhq.superboot.shiro.session.RedisSessionDAO;
+import com.lhq.superboot.shiro.session.ShiroSessionFactory;
+import com.lhq.superboot.shiro.session.ShiroSessionListener;
+import com.lhq.superboot.shiro.session.ShiroSessionManager;
+import com.lhq.superboot.util.RedisUtils;
 import org.apache.shiro.session.SessionListener;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator;
@@ -25,19 +30,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.DelegatingFilterProxy;
 
-import com.lhq.superboot.service.ShiroService;
-import com.lhq.superboot.shiro.LocalCredentialsMatcher;
-import com.lhq.superboot.shiro.LocalRealm;
-import com.lhq.superboot.shiro.LocalWebSecurityManager;
-import com.lhq.superboot.shiro.cache.ShiroRedisCacheManager;
-import com.lhq.superboot.shiro.filter.LocalAuthorizationFilter;
-import com.lhq.superboot.shiro.filter.LocalPermissionsAuthorizationFilter;
-import com.lhq.superboot.shiro.property.ShiroConfigProperty;
-import com.lhq.superboot.shiro.session.RedisSessionDAO;
-import com.lhq.superboot.shiro.session.ShiroSessionFactory;
-import com.lhq.superboot.shiro.session.ShiroSessionListener;
-import com.lhq.superboot.shiro.session.ShiroSessionManager;
-import com.lhq.superboot.util.RedisUtils;
+import javax.annotation.Resource;
+import javax.servlet.Filter;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @Description: shiro主配置

@@ -73,7 +73,7 @@ public class LoginController {
             throw new SuperBootException("lhq-superboot-user-0009");
         }
 
-        if (CheckUtils.isEmailLegal(userRegisterQo.getUserName())) {
+        if (!CheckUtils.checkUsername(userRegisterQo.getUserName())) {
             throw new SuperBootException("lhq-superboot-user-0019");
         }
 
@@ -94,7 +94,7 @@ public class LoginController {
             throw new SuperBootException("lhq-superboot-user-0002");
         }
 
-        return userService.registerUser(userRegisterQo);
+        return ResultUtils.success(userService.registerUser(userRegisterQo));
     }
 
     /**

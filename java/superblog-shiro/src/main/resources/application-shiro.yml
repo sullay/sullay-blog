@@ -10,9 +10,9 @@ shiro:
     prefix: "lhq:superboot:shiro:session:"
     idName: SHIROJSESSIONID
     # 设置session失效的扫描时间
-    valid: 3600000
+    valid: 2592000000
     # redis在session超时时间s
-    expire: 86400
+    expire: -1
   cookie:
     name: rememberMe
     timeout: 259200
@@ -20,10 +20,10 @@ shiro:
     # 账号登录限制过期时间s(如12小时候清空账号登录次数)
     accountlockTime: 43200
     # 账号锁次数(修改账号状态)
-    accountlockCount: 5
+    accountlockCount: 10
     accountlockPrefix: "lhq:superboot:shiro:login:count:"
     # 频繁锁次数(增加redis限制)
-    repeatlockCount: 3
+    repeatlockCount: 5
     # 频繁锁时间s
     repeatlockTime: 300
     repeatlockPrefix: "lhq:superboot:shiro:login:locked:"
