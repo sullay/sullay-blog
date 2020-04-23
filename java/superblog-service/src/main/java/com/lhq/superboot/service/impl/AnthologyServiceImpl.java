@@ -69,9 +69,23 @@ public class AnthologyServiceImpl implements AnthologyService {
 		AnthologyExample anthologyExample = new AnthologyExample();
 		// AnthologyExample.Criteria criteria = anthologyExample.createCriteria();
 		anthologyExample.setOrderByClause("create_time desc");
-		Page<Anthology> anthologyePage = (Page<Anthology>) anthologyMapper.selectByExample(anthologyExample);
 
-		return anthologyePage;
+		return (Page<Anthology>) anthologyMapper.selectByExample(anthologyExample);
+	}
+
+	@Override
+	public Page<Anthology> findPageByUser(int page, int size) {
+		String userId = userService.getCurrentUserId();
+		if (userId == null) {
+			throw new SuperBootException("lhq-superboot-user-0006");
+		}
+		PageHelper.startPage(page, size);
+
+		AnthologyExample anthologyExample = new AnthologyExample();
+		anthologyExample.createCriteria().andCreateUserEqualTo(userId);
+		anthologyExample.setOrderByClause("create_time desc");
+
+		return (Page<Anthology>) anthologyMapper.selectByExample(anthologyExample);
 	}
 
 }

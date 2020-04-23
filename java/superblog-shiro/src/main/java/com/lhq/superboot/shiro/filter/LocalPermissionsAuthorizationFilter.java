@@ -74,7 +74,7 @@ public class LocalPermissionsAuthorizationFilter extends PermissionsAuthorizatio
 		response.setHeader("Access-Control-Allow-Methods", "POST,GET,OPTIONS,DELETE,PUT");
 		response.setHeader("Access-Control-Allow-Credentials", "true");
 		response.setHeader("Access-Control-Allow-Headers",
-				"Authorization, Content-Type, Depth, User-Agent, X-File-Size, X-Requested-With, X-Requested-By, If-Modified-Since, X-File-Name, X-File-Type, Cache-Control, Origin");
+				"Authorization, Content-Type, Depth, User-Agent, X-File-Size, X-Requested-With, X-Requested-By, If-Modified-Since, X-File-Name, X-File-Type, Cache-Control, Origin, SessionId");
 		response.setHeader("Content-Type", request.getHeader("Content-Type"));
 		response.setStatus(HttpStatus.OK.value());
 	}

@@ -34,13 +34,22 @@ public interface AnthologyService {
 	public void delete(Anthology anthology);
 
 	/**
-	 * @Description: 
+	 * @Description:
 	 *
 	 * @param page
 	 * @param size
 	 * @return
 	 */
 	public Page<Anthology> findPage(int page, int size);
+
+	/**
+	 * @Description:
+	 *
+	 * @param page
+	 * @param size
+	 * @return
+	 */
+	public Page<Anthology> findPageByUser(int page, int size);
 
 	/**
 	 * @Description: 

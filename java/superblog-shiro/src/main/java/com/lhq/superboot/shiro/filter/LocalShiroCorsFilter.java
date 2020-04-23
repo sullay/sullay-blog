@@ -62,7 +62,7 @@ public class LocalShiroCorsFilter implements Filter {
 		response.setHeader("Access-Control-Max-Age", "3600");
 		// 表明它允许跨域请求包含xxx头
 		response.setHeader("Access-Control-Allow-Headers",
-				"Authorization, Content-Type, Depth, User-Agent, X-File-Size, X-Requested-With, X-Requested-By, If-Modified-Since, X-File-Name, X-File-Type, Cache-Control, Origin");
+				"Authorization, Content-Type, Depth, User-Agent, X-File-Size, X-Requested-With, X-Requested-By, If-Modified-Since, X-File-Name, X-File-Type, Cache-Control, Origin, SessionId");
 		// 是否允许浏览器携带用户身份信息（cookie）
 		response.setHeader("Access-Control-Allow-Credentials", "true");
 		response.setHeader("Access-Control-Expose-Headers", "*");

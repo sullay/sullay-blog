@@ -30,29 +30,3 @@ shiro:
   filter:
     # 授权地址
     authUrl: /**
-    # 不授权地址(这里记录备份，真正获取从数据库白名单中获取)
-    # 登录跳转(已废弃)
-    # unloginUrl: /unlogin
-    # 没有权限跳转(已废弃)
-    # unauthorizedUrl: /unauthorized
-    # 登录登出注册
-    # loginUrl: /user/login
-    # logoutUrl: /user/logout
-    # registerUrl: /user/pc/register
-    # 微信登录注册
-    # wechatRegisterUrl: /user/wxchat/register
-    # wechatLoginUrl: /user/wxchat/login
-    # getCode: /user/getCode
-    # app登录注册
-    # appRegisterUrl: /user/app/register
-    # appLoginUrl: /user/app/login
-    # appjudgeSessionUrl: /user/app/judgeSession
-    # 业务未授权地址
-    # cardListUrl: /card/cardType/pc/list
-    # tokenListUrl: /token/tokenCard/pc/list
-    # 忘记密码
-    # fpGetCode: /user/getCodeForFp
-    # fpValidateCode: /user/validateCodeForFp
-    # fpUpdatePwd: /user/findPassword
-    # 企业采购申请
-    # orderApply: /order/applyOrder/pc/apply

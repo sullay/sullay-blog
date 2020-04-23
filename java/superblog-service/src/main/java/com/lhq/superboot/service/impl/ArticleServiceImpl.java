@@ -84,6 +84,22 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
+	public Page<Article> findPageByUser(Integer anthologyId, int page, int size) {
+		String userId = userService.getCurrentUserId();
+		PageHelper.startPage(page, size);
+
+		ArticleExample articleExample = new ArticleExample();
+		ArticleExample.Criteria criteria = articleExample.createCriteria().andCreateUserEqualTo(userId);
+		if (null != anthologyId) {
+			criteria.andAidEqualTo(anthologyId);
+		}
+		articleExample.setOrderByClause("create_time desc");
+		Page<Article> articlePage = (Page<Article>) articleMapper.selectByExample(articleExample);
+
+		return articlePage;
+	}
+
+	@Override
 	public List<Article> findMyPage(int id, int size) {
 		return articleRepository.selectByIdAndSize(id, size);
 	}

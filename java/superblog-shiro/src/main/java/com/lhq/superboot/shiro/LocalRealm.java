@@ -62,9 +62,9 @@ public class LocalRealm extends AuthorizingRealm {
 		}
 		
 		SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-		List<Resource> resList = new ArrayList<Resource>(256);
+		List<Resource> resList;
 
-		if (LoginSource.XCX.name().equals("XCX")) {
+		if (LoginSource.XCX.name().equals(user.getChannel().getChannelFlg())) {
 			// 默认给小程序用户一个权限
 			authorizationInfo.addRole(WECHAT_DEFAULT_ROLE_NAME);
 			
@@ -77,7 +77,6 @@ public class LocalRealm extends AuthorizingRealm {
 					authorizationInfo.addStringPermission(res.getResCode());
 				}
 			}
-			
 		} else {
 			// 目前一个用户只有一个角色
 			authorizationInfo.addRole(user.getRole().getRoleKey());

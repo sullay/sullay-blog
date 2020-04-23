@@ -52,7 +52,18 @@ public interface ArticleService {
 	 * @return
 	 */
 	public Page<Article> findPage(Integer AnthologyId, int page, int size);
-	
+
+	/**
+	 * @Description:
+	 *
+	 * @param AnthologyId
+	 * @param page
+	 * @param size
+	 * @return
+	 */
+	public Page<Article> findPageByUser(Integer AnthologyId, int page, int size);
+
+
 	/**
 	 * @Description: 
 	 *

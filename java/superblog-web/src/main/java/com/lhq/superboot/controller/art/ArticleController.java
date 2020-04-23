@@ -80,6 +80,14 @@ public class ArticleController {
         page.setTotal(articlePage.getTotal());
 		return page;
 	}
+
+	@GetMapping("/findPageByUser")
+	public Object findMyAllPage(@RequestParam(value = "AnthologyId", required = false) Integer anthologyId, PageInfo<Article> page) {
+		Page<Article> articlePage = articleService.findPageByUser(anthologyId, page.getPageNum(), page.getPageSize());
+		page.setList(articlePage.getResult());
+		page.setTotal(articlePage.getTotal());
+		return page;
+	}
 	
 	@GetMapping("/findMyPage")
 	public Object findMyPage(Integer id, Integer pageSize) {

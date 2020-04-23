@@ -60,7 +60,15 @@ public class AnthologyController {
 	public Object findPage(PageInfo<Anthology> page) {
 		Page<Anthology> anthologyPage = anthologyService.findPage(page.getPageNum(), page.getPageSize());
 		page.setList(anthologyPage.getResult());
-        page.setTotal(anthologyPage.getTotal());
+		page.setTotal(anthologyPage.getTotal());
+		return page;
+	}
+
+	@GetMapping("/findPageByUser")
+	public Object findMyPage(PageInfo<Anthology> page) {
+		Page<Anthology> anthologyPage = anthologyService.findPageByUser(page.getPageNum(), page.getPageSize());
+		page.setList(anthologyPage.getResult());
+		page.setTotal(anthologyPage.getTotal());
 		return page;
 	}
 }

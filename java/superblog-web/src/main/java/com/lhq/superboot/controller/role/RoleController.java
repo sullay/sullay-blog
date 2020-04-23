@@ -133,7 +133,7 @@ public class RoleController {
     /**
      * @Description 删除角色信息
      * 
-     * @param roleId
+     * @param role
      * @return
      */
     @PostMapping("/role/delete")
@@ -163,7 +163,7 @@ public class RoleController {
     /**
      * @Description 禁用角色信息
      * 
-     * @param roleId
+     * @param role
      * @return
      */
     @PostMapping("/role/disable")

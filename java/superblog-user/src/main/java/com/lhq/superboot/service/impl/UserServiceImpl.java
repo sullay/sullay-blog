@@ -179,6 +179,7 @@ public class UserServiceImpl implements UserService {
 		String phone = userRegisterQo.getPhone();
 		String userName = userRegisterQo.getUserName();
 		String email = userRegisterQo.getEmail();
+		String roleId = "1";// pc用户权限
 
 		UserExample userExample = new UserExample();
 		userExample.createCriteria().andUserNameEqualTo(userName);
@@ -194,7 +195,7 @@ public class UserServiceImpl implements UserService {
 			String userInfoId = userInfo.getUserInfoId();
 
 			// 插入一条数据进入用户表
-			User user = new User().toBuilder().userName(userName).phone(phone).email(email)
+			User user = new User().toBuilder().userName(userName).phone(phone).email(email).roleId(roleId)
 					.password(ShiroMd5Util.PwdMd5(userRegisterQo.getPassword())).channelId(channel.getChannelId())
 					.userInfoId(userInfoId).build();
 			userMapper.insertSelective(user);
