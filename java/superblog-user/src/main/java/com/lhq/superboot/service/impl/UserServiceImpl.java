@@ -173,14 +173,21 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public String registerUser(UserRegisterQo userRegisterQo) {
+		// 获取渠道信息
+		Channel channel = getChannelMsg(userRegisterQo.getChannelFlg());
+
+		String phone = userRegisterQo.getPhone();
+		String userName = userRegisterQo.getUserName();
+		String email = userRegisterQo.getEmail();
+
+		UserExample userExample = new UserExample();
+		userExample.createCriteria().andUserNameEqualTo(userName);
+		userExample.or().andEmailEqualTo(email);
+		List<User> userList = userMapper.selectByExample(userExample);
+		if (!userList.isEmpty()) {
+			throw new SuperBootException("lhq-superboot-user-0023");
+		}
 		try {
-			// 获取渠道信息
-			Channel channel = getChannelMsg(userRegisterQo.getChannelFlg());
-
-			String phone = userRegisterQo.getPhone();
-			String userName = userRegisterQo.getUserName();
-			String email = userRegisterQo.getEmail();
-
 			// 插入用户信息表
 			UserInfo userInfo = new UserInfo();
 			userInfoMapper.insertSelective(userInfo);
