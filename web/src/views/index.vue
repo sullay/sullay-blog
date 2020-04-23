@@ -57,7 +57,7 @@ export default {
   },
   computed: {
     isLogin () {
-      return true
+      return false
     },
     head () {
       return `https://www.gravatar.com/avatar/${md5('1181518458@qq.com')}`
