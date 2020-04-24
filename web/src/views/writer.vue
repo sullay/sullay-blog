@@ -155,8 +155,12 @@ export default {
     }
   },
   watch: {
-    'currentAnthology.id' (val) {
-      this._getArticleList()
+    'currentAnthology.id' (val, oldVal) {
+      if (oldVal) {
+        this._getArticleList()
+      } else {
+        setTimeout(this._getArticleList, 800)
+      }
     },
     'currentArticle.id' (val) {
       if (this.currentArticle) {
@@ -264,7 +268,7 @@ export default {
       })
     },
     _saveArticle (article) {
-      // 创建文章
+      // 保存文章
       article.name = this.articleTitle
       article.context = this.articleContext
       this.updateArticle(article).then(res => {
