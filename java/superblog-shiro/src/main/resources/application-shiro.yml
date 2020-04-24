@@ -6,12 +6,13 @@ shiro:
     authenticName: authenticationCache
     authorizaName: authorizationCache
   session:
-    timeout: 1800000
-    prefix: "lhq:superboot:shiro:session:"
+    # 30天过期
+    timeout: 2592000000
     idName: SHIROJSESSIONID
-    # 设置session失效的扫描时间
-    valid: 2592000000
-    # redis在session超时时间s
+    # 设置session失效的扫描时间(1小时扫一次)
+    valid: 3600000
+    # redis在session超时时间s（这个无所谓，因为过期了会根据session失效扫描时间定时删除）
+    prefix: "lhq:superboot:shiro:session:"
     expire: -1
   cookie:
     name: rememberMe

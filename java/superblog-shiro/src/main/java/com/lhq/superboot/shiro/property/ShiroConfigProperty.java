@@ -38,7 +38,7 @@ public class ShiroConfigProperty {
 	private String cacheAuthorizaName;
 	
 	@Value("${shiro.session.timeout}")
-	private int sessionTimeout;
+	private long sessionTimeout;
 	
 	@Value("${shiro.session.idName}")
 	private String sessionIdName;
