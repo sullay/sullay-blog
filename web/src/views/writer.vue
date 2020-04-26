@@ -328,7 +328,7 @@ export default {
         console.log(res)
         let _res = res.data.data
         // 第二步.将返回的url替换到文本原位置![...](0) -> ![...](url)
-        this.$refs.md.$img2Url(pos, this.fileUrl + _res.value)
+        this.$refs.md.$img2Url(pos, this.fileUrl + '/' + _res.value)
       })
     },
     $imgDel (pos) {
