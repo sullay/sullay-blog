@@ -1,3 +1,12 @@
+/*
+ * @Description:
+ * @Version: 1.0
+ * @Author: sullay
+ * @Date: 2020-05-27 15:53:24
+ * @LastEditors: sullay
+ * @LastEditTime: 2020-05-27 15:55:55
+ */
+const path = require('path')
 module.exports = {
   devServer: {
     // proxy: {
@@ -14,6 +23,9 @@ module.exports = {
   publicPath: process.env.NODE_ENV === 'production'
     ? './'
     : '/',
+  // 输出文件目录
+  outputDir: path.join(__dirname, '../docs'),
+
   configureWebpack: config => {
     if (process.env.NODE_ENV === 'production') {
       config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true
